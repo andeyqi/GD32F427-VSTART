@@ -35,6 +35,7 @@ OF SUCH DAMAGE.
 #include "gd32f4xx.h"
 #include "systick.h"
 #include <stdio.h>
+#include <string.h>
 #include "littleshell.h"
 /*!
     \brief      main function
@@ -47,6 +48,15 @@ int main(void)
     /* configure systick */
     systick_config();
 
+    /* enable the LEDs GPIO clock */
+    rcu_periph_clock_enable(RCU_GPIOC);
+
+    /* configure LED1 GPIO port */
+    gpio_mode_set(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_6);
+    gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_6);
+    /* reset LED1 GPIO pin */
+    gpio_bit_reset(GPIOC, GPIO_PIN_6);
+	
     /* enable GPIO clock */
     rcu_periph_clock_enable(RCU_GPIOB);
 
@@ -100,3 +110,22 @@ uint8_t uartgetchar(uint8_t * pdata)
     else
         return 0;
 }
+
+unsigned int led(char argc,char ** argv)
+{
+	if(argc != 2)
+		return 0;
+
+	if(strcmp("on",argv[1]) == 0)
+	{
+        /* turn on LED1 */
+        gpio_bit_set(GPIOC, GPIO_PIN_6);
+	}
+	else if(strcmp("off",argv[1]) == 0)
+	{
+		gpio_bit_reset(GPIOC, GPIO_PIN_6);
+	}
+	
+	return 1;
+}
+LTSH_FUNCTION_EXPORT(led,"test led on/off");
