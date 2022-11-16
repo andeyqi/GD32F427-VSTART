@@ -78,8 +78,10 @@ int main(void)
     usart_enable(USART0);
 
     while(1) {
-        delay_1ms(1000);
-        printf("a usart transmit test example!\r\n");
+        if(SET == usart_flag_get(USART0, USART_FLAG_RBNE))
+       	{
+       		printf("%c",usart_data_receive(USART0));
+       	}
     }
 }
 
