@@ -35,6 +35,7 @@ OF SUCH DAMAGE.
 #include "gd32f4xx.h"
 #include "systick.h"
 #include <stdio.h>
+#include "littleshell.h"
 /*!
     \brief      main function
     \param[in]  none
@@ -77,12 +78,7 @@ int main(void)
     
     usart_enable(USART0);
 
-    while(1) {
-        if(SET == usart_flag_get(USART0, USART_FLAG_RBNE))
-       	{
-       		printf("%c",usart_data_receive(USART0));
-       	}
-    }
+    (void)littleshell_main_entry(NULL);
 }
 
 
@@ -92,4 +88,15 @@ int fputc(int ch, FILE *f)
     usart_data_transmit(USART0, (uint8_t)ch);
     while(RESET == usart_flag_get(USART0, USART_FLAG_TBE));
     return ch;
+}
+
+uint8_t uartgetchar(uint8_t * pdata)
+{
+    if(SET == usart_flag_get(USART0, USART_FLAG_RBNE))
+    {
+        *pdata = usart_data_receive(USART0);
+	return 1;
+    }
+    else
+        return 0;
 }

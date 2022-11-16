@@ -32,11 +32,11 @@
                 </option>
                 <option>
                     <name>Input description</name>
-                    <state>Automatic choice of formatter.</state>
+                    <state>Automatic choice of formatter, without multibyte support.</state>
                 </option>
                 <option>
                     <name>Output description</name>
-                    <state>Automatic choice of formatter.</state>
+                    <state>Automatic choice of formatter, without multibyte support.</state>
                 </option>
                 <option>
                     <name>GOutputBinary</name>
@@ -343,6 +343,7 @@
                     <state>$PROJ_DIR$\..\..\..\..\GD32F4xx_Firmware_Library\CMSIS\GD\GD32F4xx\Include</state>
                     <state>$PROJ_DIR$\..\..\..\..\GD32F4xx_Firmware_Library\CMSIS\GD</state>
                     <state>$PROJ_DIR$\..\..\..\Utilities</state>
+                    <state>$PROJ_DIR$\..\littleshell</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -2153,6 +2154,12 @@
         <name>GD32F4xx_START</name>
         <file>
             <name>$PROJ_DIR$\..\..\..\Utilities\gd32f427v_start.c</name>
+        </file>
+    </group>
+    <group>
+        <name>shell</name>
+        <file>
+            <name>$PROJ_DIR$\..\littleshell\littleshell.c</name>
         </file>
     </group>
     <group>

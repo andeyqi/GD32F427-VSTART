@@ -2494,6 +2494,12 @@
         </file>
     </group>
     <group>
+        <name>shell</name>
+        <file>
+            <name>$PROJ_DIR$\..\littleshell\littleshell.c</name>
+        </file>
+    </group>
+    <group>
         <name>Startup</name>
         <file>
             <name>$PROJ_DIR$\..\..\..\..\GD32F4xx_Firmware_Library\CMSIS\GD\GD32F4xx\Source\IAR\startup_gd32f407_427.s</name>

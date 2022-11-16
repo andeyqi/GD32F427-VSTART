@@ -4,12 +4,9 @@
 #include "littleshell.h"
 #include <stdint.h>
 #include <stdbool.h>
-#include "standard.h"
 
-extern bool Uart_Get_Char (uint8_t chan, uint8_t* ptr);
-extern uint8_t UART_Transmit(uint8_t channel, const uint8_t* tx_buf, uint8_t bytes);
 
-#define CONSOLE_FROME "ST#"
+#define CONSOLE_FROME "GD32#"
 #define NEW_LINE      "\r\n"
 
 #define MSG(msg)  UART_Transmit(1,msg,strlen(msg))
@@ -21,6 +18,8 @@ static struct littleshell_syscall * _syscall_table_end = NULL;
 
 static struct little_shell _shell;
 static struct little_shell * shell = &_shell;
+
+uint8_t uartgetchar(uint8_t* pdata);
 
 void littleshell_system_function_init(const void* begin, const void* end)
 {
@@ -73,13 +72,11 @@ static void shell_auto_complete(char *prefix)
     if (*prefix == '\0')
     {
 #if ( LTSHELL_USING_SHOW_HELP == 1 )
-        logctrl_instance()->is_sync = 1;
         printf("shell commands:"NEW_LINE);
         for (index = _syscall_table_begin; index < _syscall_table_end; index++)
         {
             printf("%-16s - %s"NEW_LINE, index->name, index->desc);
         }
-        logctrl_instance()->is_sync = 0;
 #endif
         printf("%s%s", CONSOLE_FROME, prefix);
         return;
@@ -277,19 +274,13 @@ void littleshell_main_entry(void *pvParameters)
     char *p;
     littleshell_system_init();
     
-    {
-        extern unsigned int version(char argc,char ** argv);
-        version(0,NULL);
-    }
-    
     printf("%s",CONSOLE_FROME);
     while(1)
     {    
         uint8_t ch = 100;
-        Feed_Dog();
         //if (linelen >= sizeof(line))
         //    continue;
-        if(Uart_Get_Char(1,&ch))
+        if(uartgetchar(&ch))
         {
             /*
              * handle control key
@@ -494,7 +485,7 @@ void littleshell_main_entry(void *pvParameters)
         }
         else
         {
-            OS_Sleep(5);
+            //OS_Sleep(5);
         }
     }   
 }
