@@ -2398,6 +2398,39 @@
         </file>
     </group>
     <group>
+        <name>freertos</name>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\croutine.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\event_groups.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\portable\MemMang\heap_4.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\list.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\portable\IAR\ARM_CM4F\port.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\portable\IAR\ARM_CM4F\portasm.s</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\queue.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\stream_buffer.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\tasks.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\timers.c</name>
+        </file>
+    </group>
+    <group>
         <name>GD32F4xx_Peripherals</name>
         <file>
             <name>$PROJ_DIR$\..\..\..\..\GD32F4xx_Firmware_Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_adc.c</name>
