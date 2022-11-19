@@ -51,24 +51,29 @@ void start_task(void *pvParameters);
 TaskHandle_t Task1Task_Handler;
 void start_task1(void *pvParameters);
 
+#define SHELL_TASK_PRIO        2
+#define SHELL_STK_SIZE         128  
+TaskHandle_t ShellTask_Handler;
+
+
 void start_task(void *pvParameters)
 {
-	while(1)
-	{
-		printf("I am task2\r\n" );
-		vTaskDelay(1000);
-	}
+    while(1)
+    {
+        printf("I am task2\r\n" );
+        vTaskDelay(20000);
+    }
 
 }
 
 
 void start_task1(void *pvParameters)
 {
-	while(1)
-	{
-		printf("I am task1\r\n" );
-		vTaskDelay(1000);
-	}
+    while(1)
+    {
+        printf("I am task1\r\n" );
+        vTaskDelay(20000);
+    }
 }
 
 
@@ -91,7 +96,7 @@ int main(void)
     gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_6);
     /* reset LED1 GPIO pin */
     gpio_bit_reset(GPIOC, GPIO_PIN_6);
-	
+    
     /* enable GPIO clock */
     rcu_periph_clock_enable(RCU_GPIOB);
 
@@ -125,21 +130,26 @@ int main(void)
 
 
     xTaskCreate((TaskFunction_t )start_task,           
-                (const char*    )"start_task",        
+                (const char*    )"start_task1",        
                 (uint16_t       )START_STK_SIZE,      
                 (void*          )NULL,                  
                 (UBaseType_t    )START_TASK_PRIO,      
                 (TaskHandle_t*  )&StartTask_Handler); 
-	
+    
     xTaskCreate((TaskFunction_t )start_task1,           
-                (const char*    )"start_task",        
+                (const char*    )"start_task2",        
                 (uint16_t       )TASK1_STK_SIZE,      
                 (void*          )NULL,                  
                 (UBaseType_t    )TASK1_TASK_PRIO,      
                 (TaskHandle_t*  )&Task1Task_Handler); 
-
-	vTaskStartScheduler(); 
-    //(void)littleshell_main_entry(NULL);
+    
+    xTaskCreate((TaskFunction_t )littleshell_main_entry,           
+                (const char*    )"shell_task",        
+                (uint16_t       )SHELL_STK_SIZE,      
+                (void*          )NULL,                  
+                (UBaseType_t    )SHELL_TASK_PRIO,      
+                (TaskHandle_t*  )&Task1Task_Handler); 
+    vTaskStartScheduler();
 }
 
 
@@ -156,7 +166,7 @@ uint8_t uartgetchar(uint8_t * pdata)
     if(SET == usart_flag_get(USART0, USART_FLAG_RBNE))
     {
         *pdata = usart_data_receive(USART0);
-	return 1;
+    return 1;
     }
     else
         return 0;
@@ -164,20 +174,20 @@ uint8_t uartgetchar(uint8_t * pdata)
 
 unsigned int led(char argc,char ** argv)
 {
-	if(argc != 2)
-		return 0;
+    if(argc != 2)
+        return 0;
 
-	if(strcmp("on",argv[1]) == 0)
-	{
+    if(strcmp("on",argv[1]) == 0)
+    {
         /* turn on LED1 */
         gpio_bit_set(GPIOC, GPIO_PIN_6);
-	}
-	else if(strcmp("off",argv[1]) == 0)
-	{
-		gpio_bit_reset(GPIOC, GPIO_PIN_6);
-	}
-	
-	return 1;
+    }
+    else if(strcmp("off",argv[1]) == 0)
+    {
+        gpio_bit_reset(GPIOC, GPIO_PIN_6);
+    }
+    
+    return 1;
 }
 LTSH_FUNCTION_EXPORT(led,"test led on/off");
 
