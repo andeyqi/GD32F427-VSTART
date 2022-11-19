@@ -344,6 +344,9 @@
                     <state>$PROJ_DIR$\..\..\..\..\GD32F4xx_Firmware_Library\CMSIS\GD</state>
                     <state>$PROJ_DIR$\..\..\..\Utilities</state>
                     <state>$PROJ_DIR$\..\littleshell</state>
+                    <state>$PROJ_DIR$\..\FreeRTOSv10.3.1</state>
+                    <state>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\include</state>
+                    <state>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\portable\IAR\ARM_CM4F</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -609,7 +612,7 @@
                 </option>
                 <option>
                     <name>AUserIncludes</name>
-                    <state></state>
+                    <state>$PROJ_DIR$\..\FreeRTOSv10.3.1</state>
                 </option>
                 <option>
                     <name>AExtraOptionsCheckV2</name>
@@ -734,27 +737,27 @@
                 </option>
                 <option>
                     <name>IlinkMapFile</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkLogFile</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkLogInitialization</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkLogModule</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkLogSection</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkLogVeneer</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkIcfOverride</name>
@@ -893,15 +896,15 @@
                 </option>
                 <option>
                     <name>IlinkLogAutoLibSelect</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkLogRedirSymbols</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkLogUnusedFragments</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkCrcReverseByteOrder</name>
@@ -967,7 +970,7 @@
                 </option>
                 <option>
                     <name>IlinkLogCallGraph</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkIcfFile_AltDefault</name>
@@ -2058,6 +2061,39 @@
         <name>Doc</name>
         <file>
             <name>$PROJ_DIR$\..\readme.txt</name>
+        </file>
+    </group>
+    <group>
+        <name>freertos</name>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\croutine.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\event_groups.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\portable\MemMang\heap_4.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\list.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\portable\IAR\ARM_CM4F\port.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\portable\IAR\ARM_CM4F\portasm.s</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\queue.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\stream_buffer.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\tasks.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\timers.c</name>
         </file>
     </group>
     <group>

@@ -37,6 +37,41 @@ OF SUCH DAMAGE.
 #include <stdio.h>
 #include <string.h>
 #include "littleshell.h"
+#include "FreeRTOS.h"
+#include "task.h"
+
+
+#define START_TASK_PRIO        1
+#define START_STK_SIZE         128  
+TaskHandle_t StartTask_Handler;
+void start_task(void *pvParameters);
+
+#define TASK1_TASK_PRIO        2
+#define TASK1_STK_SIZE         128  
+TaskHandle_t Task1Task_Handler;
+void start_task1(void *pvParameters);
+
+void start_task(void *pvParameters)
+{
+	while(1)
+	{
+		printf("I am task2\r\n" );
+		vTaskDelay(1000);
+	}
+
+}
+
+
+void start_task1(void *pvParameters)
+{
+	while(1)
+	{
+		printf("I am task1\r\n" );
+		vTaskDelay(1000);
+	}
+}
+
+
 /*!
     \brief      main function
     \param[in]  none
@@ -46,7 +81,7 @@ OF SUCH DAMAGE.
 int main(void)
 {
     /* configure systick */
-    systick_config();
+    //systick_config();
 
     /* enable the LEDs GPIO clock */
     rcu_periph_clock_enable(RCU_GPIOC);
@@ -88,7 +123,23 @@ int main(void)
     
     usart_enable(USART0);
 
-    (void)littleshell_main_entry(NULL);
+
+    xTaskCreate((TaskFunction_t )start_task,           
+                (const char*    )"start_task",        
+                (uint16_t       )START_STK_SIZE,      
+                (void*          )NULL,                  
+                (UBaseType_t    )START_TASK_PRIO,      
+                (TaskHandle_t*  )&StartTask_Handler); 
+	
+    xTaskCreate((TaskFunction_t )start_task1,           
+                (const char*    )"start_task",        
+                (uint16_t       )TASK1_STK_SIZE,      
+                (void*          )NULL,                  
+                (UBaseType_t    )TASK1_TASK_PRIO,      
+                (TaskHandle_t*  )&Task1Task_Handler); 
+
+	vTaskStartScheduler(); 
+    //(void)littleshell_main_entry(NULL);
 }
 
 
