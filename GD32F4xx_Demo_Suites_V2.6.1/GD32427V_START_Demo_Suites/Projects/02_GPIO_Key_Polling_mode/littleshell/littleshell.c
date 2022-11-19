@@ -4,7 +4,8 @@
 #include "littleshell.h"
 #include <stdint.h>
 #include <stdbool.h>
-
+#include "FreeRTOS.h"
+#include "task.h"
 
 #define CONSOLE_FROME "GD32#"
 #define NEW_LINE      "\r\n"
@@ -485,7 +486,7 @@ void littleshell_main_entry(void *pvParameters)
         }
         else
         {
-            //OS_Sleep(5);
+            vTaskDelay(1);
         }
     }   
 }
