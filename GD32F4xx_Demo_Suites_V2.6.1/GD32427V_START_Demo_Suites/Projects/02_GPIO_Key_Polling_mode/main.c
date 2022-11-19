@@ -76,6 +76,12 @@ void start_task1(void *pvParameters)
     }
 }
 
+void show_board_info(void)
+{
+    printf("\r\n");
+    printf("GD32F427V-START %s %s.\r\n",__DATE__,__TIME__);
+    printf("\r\n");
+}
 
 /*!
     \brief      main function
@@ -127,6 +133,8 @@ int main(void)
     usart_transmit_config(USART0, USART_TRANSMIT_ENABLE);
     
     usart_enable(USART0);
+
+    (void)show_board_info();
 
 
     xTaskCreate((TaskFunction_t )start_task,           
