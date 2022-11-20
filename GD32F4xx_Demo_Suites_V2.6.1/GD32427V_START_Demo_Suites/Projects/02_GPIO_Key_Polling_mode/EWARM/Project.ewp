@@ -348,6 +348,7 @@
                     <state>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\include</state>
                     <state>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\portable\IAR\ARM_CM4F</state>
                     <state>$PROJ_DIR$\..</state>
+                    <state>$PROJ_DIR$\..\common</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
