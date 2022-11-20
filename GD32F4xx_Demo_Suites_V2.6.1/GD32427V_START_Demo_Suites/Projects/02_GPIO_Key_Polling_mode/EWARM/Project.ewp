@@ -347,6 +347,7 @@
                     <state>$PROJ_DIR$\..\FreeRTOSv10.3.1</state>
                     <state>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\include</state>
                     <state>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\portable\IAR\ARM_CM4F</state>
+                    <state>$PROJ_DIR$\..</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -2055,6 +2056,12 @@
         <name>CMSIS</name>
         <file>
             <name>$PROJ_DIR$\..\..\..\..\GD32F4xx_Firmware_Library\CMSIS\GD\GD32F4xx\Source\system_gd32f4xx.c</name>
+        </file>
+    </group>
+    <group>
+        <name>common</name>
+        <file>
+            <name>$PROJ_DIR$\..\common\utilities.c</name>
         </file>
     </group>
     <group>
