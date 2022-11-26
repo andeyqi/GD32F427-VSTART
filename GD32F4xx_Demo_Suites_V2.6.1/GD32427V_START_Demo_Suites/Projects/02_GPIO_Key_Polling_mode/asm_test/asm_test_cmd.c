@@ -20,6 +20,9 @@ unsigned int asmtest(char argc,char ** argv)
     case 1:
         asm_test_bfi();
         break;
+    case 2:
+        asm_test_ror();
+        break;
     default:
         break;
     }
