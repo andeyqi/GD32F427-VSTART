@@ -23,6 +23,9 @@ unsigned int asmtest(char argc,char ** argv)
     case 2:
         asm_test_ror();
         break;
+    case 3:
+        asm_test_mov();
+        break;
     default:
         break;
     }

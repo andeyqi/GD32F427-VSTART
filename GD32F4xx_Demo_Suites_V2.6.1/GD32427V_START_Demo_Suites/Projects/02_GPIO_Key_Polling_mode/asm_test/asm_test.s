@@ -3,6 +3,7 @@
 
     PUBLIC asm_test_bfi
     PUBLIC asm_test_ror
+    PUBLIC asm_test_mov
 
 asm_test_bfi:
     ldr r0,=0xaabbccff
@@ -25,6 +26,16 @@ asm_test_ror:
     ror r2,r0,#24 /* r2 = 0xbbccddaa */
     
     bx lr    
+
+
+asm_test_mov:
+    movs r0,#1
+    mov r0,#0
+    mov r1,#1
+    movs r0,#0
+    movs r1,#1
+
+    bx lr
 
 	END
 
