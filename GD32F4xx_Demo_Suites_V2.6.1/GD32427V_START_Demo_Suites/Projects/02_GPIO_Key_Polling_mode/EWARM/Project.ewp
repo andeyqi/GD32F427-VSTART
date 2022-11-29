@@ -679,7 +679,7 @@
             <archiveVersion>1</archiveVersion>
             <data>
                 <prebuild></prebuild>
-                <postbuild></postbuild>
+                <postbuild>ielfdumparm.exe $PROJ_DIR$\Debug\Exe\Project.out -o $PROJ_DIR$\Debug\Exe\Project.asm  --code</postbuild>
             </data>
         </settings>
         <settings>
