@@ -2,7 +2,6 @@
 #include "utilities.h"
 #include "littleshell.h"
 
-static unsigned int test[4] = {0xa5a5a5a5};
 
 unsigned int asmtest(char argc,char ** argv)
 {
@@ -14,9 +13,6 @@ unsigned int asmtest(char argc,char ** argv)
     cmd = myatoi(argv[1]);
     switch(cmd)
     {
-    case 0:
-        mytest(test);
-        break;
     case 1:
         asm_test_bfi();
         break;
