@@ -13,13 +13,13 @@ unsigned int asmtest(char argc,char ** argv)
     cmd = myatoi(argv[1]);
     switch(cmd)
     {
-    case 1:
+    case 0:
         asm_test_bfi();
         break;
-    case 2:
+    case 1:
         asm_test_ror();
         break;
-    case 3:
+    case 2:
         asm_test_mov();
         break;
     default:
