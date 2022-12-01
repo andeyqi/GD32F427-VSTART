@@ -767,7 +767,7 @@
                 </option>
                 <option>
                     <name>IlinkIcfFile</name>
-                    <state>$TOOLKIT_DIR$\config\linker\GD\GD32F427xK.icf</state>
+                    <state>$PROJ_DIR$\..\linkfile\GD32F427xK.icf</state>
                 </option>
                 <option>
                     <name>IlinkIcfFileSlave</name>
