@@ -679,7 +679,7 @@
             <archiveVersion>1</archiveVersion>
             <data>
                 <prebuild></prebuild>
-                <postbuild>ielfdumparm.exe $PROJ_DIR$\Debug\Exe\Project.out -o $PROJ_DIR$\Debug\Exe\Project.asm  --code</postbuild>
+                <postbuild>$PROJ_DIR$\..\tools\ImageCRC.bat   $TARGET_BPATH$</postbuild>
             </data>
         </settings>
         <settings>
@@ -799,11 +799,12 @@
                 </option>
                 <option>
                     <name>IlinkUseExtraOptions</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>IlinkExtraOptions</name>
-                    <state></state>
+                    <state>--keep __checksum</state>
+                    <state>--place_holder __checksum,4,.checksum,4</state>
                 </option>
                 <option>
                     <name>IlinkLowLevelInterfaceSlave</name>

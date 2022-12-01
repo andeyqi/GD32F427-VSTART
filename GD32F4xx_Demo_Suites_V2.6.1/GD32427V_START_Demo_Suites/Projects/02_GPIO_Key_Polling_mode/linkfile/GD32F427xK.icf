@@ -5,7 +5,7 @@
 define symbol __ICFEDIT_intvec_start__ = 0x08000000;
 /*-Memory Regions-*/
 define symbol __ICFEDIT_region_ROM_start__ = 0x08000000;
-define symbol __ICFEDIT_region_ROM_end__   = 0x082FFFFF;
+define symbol __ICFEDIT_region_ROM_end__   = 0x080FFFFF;
 define symbol __ICFEDIT_region_RAM_start__ = 0x20000000;
 define symbol __ICFEDIT_region_RAM_end__   = 0x2002FFFF;
 /*-Sizes-*/
@@ -30,6 +30,10 @@ do not initialize  { section .noinit };
 place at address mem:__ICFEDIT_intvec_start__ { readonly section .intvec };
 
 place in ROM_region   { readonly };
+place at end of ROM_region { ro section .checksum };
 place in RAM_region   { readwrite,
                         block CSTACK, block HEAP };                        
 place in RAM1_region  { section .sram };
+
+export symbol __ICFEDIT_region_ROM_start__;
+export symbol __ICFEDIT_region_ROM_end__;
