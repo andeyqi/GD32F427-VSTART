@@ -5,7 +5,8 @@
 define symbol __ICFEDIT_intvec_start__ = 0x08000000;
 /*-Memory Regions-*/
 define symbol __ICFEDIT_region_ROM_start__ = 0x08000000;
-define symbol __ICFEDIT_region_ROM_end__   = 0x080FFFFF;
+define symbol __ICFEDIT_region_ROM_end__   = 0x0807FFFF;
+define symbol __ICFEDIT_region_ROM_end_CRC__ = __ICFEDIT_region_ROM_end__ - 4;
 
 define symbol __ICFEDIT_region_RAM_start__ = 0x20000000;
 define symbol __ICFEDIT_region_RAM_end__   = 0x2002FFFF;
@@ -37,4 +38,4 @@ place in RAM_region   { readwrite,
 place in RAM1_region  { section .sram };
 
 export symbol __ICFEDIT_region_ROM_start__;
-export symbol __ICFEDIT_region_ROM_end__;
+export symbol __ICFEDIT_region_ROM_end_CRC__;

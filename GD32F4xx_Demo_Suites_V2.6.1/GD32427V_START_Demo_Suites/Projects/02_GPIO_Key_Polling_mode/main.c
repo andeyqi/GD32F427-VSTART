@@ -216,3 +216,32 @@ unsigned int dumpaddr(char argc,char ** argv)
 }
 LTSH_FUNCTION_EXPORT(dumpaddr,"dump addr value");
 
+
+#include "crc32.h"
+
+#define CRC_INITIALVALUE 0xFFFFFFFF
+
+extern unsigned long __checksum;
+
+extern unsigned long __ICFEDIT_region_ROM_start__;
+extern unsigned long __ICFEDIT_region_ROM_end_CRC__;
+
+unsigned int crc(char argc,char ** argv)
+{
+    unsigned long sum=0;
+    
+     sum = set_crc32_init_value (CRC_INITIALVALUE);
+     sum = fast_crc32(sum, (unsigned char*)&__ICFEDIT_region_ROM_start__, 
+                      (unsigned long)&__ICFEDIT_region_ROM_end_CRC__ - (unsigned long)&__ICFEDIT_region_ROM_start__ + 1);
+     if(sum!=__checksum)
+     {
+          printf("Checksum failed: 0x%04lX (calculated) "
+                 "vs 0x%04lX (from linker)\n", sum, __checksum);
+     }
+     else
+     {
+          printf("* Checksum 0x%04lX is correct! *\n", __checksum);
+     }
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(crc,"test crc");

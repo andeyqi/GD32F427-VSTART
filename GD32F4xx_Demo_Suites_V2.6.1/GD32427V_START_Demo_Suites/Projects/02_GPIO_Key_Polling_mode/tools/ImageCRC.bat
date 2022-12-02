@@ -14,7 +14,7 @@ ielfdumparm.exe %OUT% -o %ASM%  --code
 
 
 :: calculate ROMs CRC
-ielftool.exe  --fill=0xff;__ICFEDIT_region_ROM_start__-__ICFEDIT_region_ROM_end__ --checksum=__checksum:4,crc32;__ICFEDIT_region_ROM_start__-__ICFEDIT_region_ROM_end__ --verbose %OUT% %OUT%
+ielftool.exe  --fill="0xff;__ICFEDIT_region_ROM_start__-__ICFEDIT_region_ROM_end_CRC__" --checksum="__checksum:4,crc32:p,0xffffffff;__ICFEDIT_region_ROM_start__-__ICFEDIT_region_ROM_end_CRC__" --verbose %OUT% %OUT%
 
 :: get bin file
 ielftool --bin --verbose %OUT% %BIN%
