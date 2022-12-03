@@ -4,6 +4,7 @@
     PUBLIC asm_test_bfi
     PUBLIC asm_test_ror
     PUBLIC asm_test_mov
+    PUBLIC asm_test_mvn
 
 asm_test_bfi:
     ldr r0,=0xaabbccff
@@ -34,6 +35,13 @@ asm_test_mov:
     mov r1,#1
     movs r0,#0
     movs r1,#1
+
+    bx lr
+
+asm_test_mvn:
+    mvns r0,#0           ;r0 = 0xffffffff N=1,Z=0
+    mvns r0,#0XFFFFFFFF  ;r0 = 0 N=0,Z=1
+    mvn r1,r0
 
     bx lr
 
