@@ -40,3 +40,11 @@ unsigned int crc(char argc,char ** argv)
     return 1;
 }
 LTSH_FUNCTION_EXPORT(crc,"test crc");
+
+unsigned int crcsymbol(char argc,char ** argv)
+{
+    printf("checksum start %x  end %x checksum %x\r\n",__ICFEDIT_region_ROM_start__,__ICFEDIT_region_ROM_end_CRC__,__checksum);
+    printf("checksum start %x  end %x checksum %x\r\n",&__ICFEDIT_region_ROM_start__,&__ICFEDIT_region_ROM_end_CRC__,&__checksum);
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(crcsymbol,"test crc symbol");
