@@ -5,6 +5,7 @@
     PUBLIC asm_test_ror
     PUBLIC asm_test_mov
     PUBLIC asm_test_mvn
+    PUBLIC asm_test_asr    
 
 asm_test_bfi:
     ldr r0,=0xaabbccff
@@ -44,8 +45,26 @@ asm_test_mvn:
     mvn  r1,r0
     movt r1,#0xf123     ;MOVT writes a 16-bit immediate value, imm16, to the top halfword, Rd[31:16],
                         ;of its destination register. The write does not affect Rd[15:0].
+                        ;MOVT{cond} Rd, #imm16,
+                        ;Move Top.
+                        ;Rd must not be SP and must not be PC.
     movw r1,#0xf123     ;The MOVW instruction provides the same function as MOV, 
                         ;but is restricted to using the imm16operand.
+
+    bx lr
+
+asm_test_asr:
+    mov r0,#0xf
+    asr r1,r0,#1       ;r1 = 7
+    asr r1,r0,#2       ;r1 = 3
+    asr r1,r0,#3       ;r1 = 1
+    asr r1,r0,#4       ;r1 = 0
+    
+    mov r0,#0xfffffff0 ;r0 = -16
+    asr r1,r0,#1       ;r1 = -8
+    asr r1,r0,#2       ;r1 =-4
+    asr r1,r0,#3       ;r1=-2
+    asr r1,r0,#4       ;r1=-1
 
     bx lr
 
