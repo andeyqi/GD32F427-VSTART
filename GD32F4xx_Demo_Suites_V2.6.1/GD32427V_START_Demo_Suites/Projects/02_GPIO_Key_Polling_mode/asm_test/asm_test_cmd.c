@@ -54,6 +54,8 @@ typedef struct
 unsigned int asmctest(char argc,char ** argv)
 {
     int cmd  = 0;
+    int32_t asr = 0xaabb;
+    uint32_t uasr = 0x55aa;
     bit_test bit_domain;
 
     if(argc == 1 )
@@ -66,6 +68,9 @@ unsigned int asmctest(char argc,char ** argv)
         bit_domain.byte3_bit0_3 = myatoi(argv[2]);
         printf("asm test c bfi %x \r\n",bit_domain.byte3_bit0_3);
         break; 
+    case 1:
+        printf("%x %x %x\r\n",asr/2,asr>>4,uasr>>5);
+        break;
     default:
         break;
     }
