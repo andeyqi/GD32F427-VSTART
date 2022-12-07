@@ -5,7 +5,8 @@
     PUBLIC asm_test_ror
     PUBLIC asm_test_mov
     PUBLIC asm_test_mvn
-    PUBLIC asm_test_asr    
+    PUBLIC asm_test_asr  
+    PUBLIC asm_test_add
 
 asm_test_bfi:
     ldr r0,=0xaabbccff
@@ -54,18 +55,30 @@ asm_test_mvn:
     bx lr
 
 asm_test_asr:
-    mov r0,#0xf
-    asr r1,r0,#1       ;r1 = 7
-    asr r1,r0,#2       ;r1 = 3
-    asr r1,r0,#3       ;r1 = 1
-    asr r1,r0,#4       ;r1 = 0
+    mov r0,#0xf        ;r0 = 15 0b1111
+    asr r1,r0,#1       ;r1 = 7  0b0111
+    asr r1,r0,#2       ;r1 = 3  0b0011
+    asr r1,r0,#3       ;r1 = 1  0b0001
+    asr r1,r0,#4       ;r1 = 0  0b0000
     
     mov r0,#0xfffffff0 ;r0 = -16
-    asr r1,r0,#1       ;r1 = -8
-    asr r1,r0,#2       ;r1 =-4
-    asr r1,r0,#3       ;r1=-2
-    asr r1,r0,#4       ;r1=-1
+    asr r1,r0,#1       ;r1 = -8 0xfffffff8
+    asr r1,r0,#2       ;r1 =-4  0xfffffffc
+    asr r1,r0,#3       ;r1=-2   0xfffffffe
+    asr r1,r0,#4       ;r1=-1   0xffffffff
 
+    bx lr 
+
+asm_test_add:
+    ldr r0,=0xfffffff0
+    adds r1,r0,#1
+    movs r0,#0x00
+    ldr r0,=0xfffffff0
+    adds r1,r0,#1
+    ldr r0,=0xffffffff
+    adds r1,r0,#1
+    ldr r0,=0x7fffffff
+    adds r1,r0,#1
     bx lr
 
 	END

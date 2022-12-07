@@ -29,7 +29,9 @@ unsigned int asmtest(char argc,char ** argv)
     case 4:
         asm_test_asr();
         break;
-
+    case 5:
+        asm_test_add();
+        break;
     default:
         break;
     }
