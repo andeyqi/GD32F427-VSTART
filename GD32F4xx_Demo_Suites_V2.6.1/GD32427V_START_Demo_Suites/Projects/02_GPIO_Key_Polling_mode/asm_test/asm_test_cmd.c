@@ -57,6 +57,7 @@ unsigned int asmctest(char argc,char ** argv)
     int32_t asr = 0xaabb;
     uint32_t uasr = 0x55aa;
     bit_test bit_domain;
+    unsigned long long adc;
 
     if(argc == 1 )
         return 0;
@@ -71,6 +72,9 @@ unsigned int asmctest(char argc,char ** argv)
     case 1:
         printf("%x %x %x\r\n",asr/2,asr>>4,uasr>>5);
         break;
+    case 2:
+        adc = myatol(argv[3]) + myatol(argv[2]);
+        printf("%llx \r\n",adc);
     default:
         break;
     }

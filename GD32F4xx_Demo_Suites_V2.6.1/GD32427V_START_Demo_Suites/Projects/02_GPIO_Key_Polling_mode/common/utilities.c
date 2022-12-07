@@ -68,9 +68,9 @@ unsigned int myatohexuint(const char* s)
 }
 
 
-long int myatol(const char* s) 
+long long int myatol(const char* s) 
 {
-    long int v=0;
+    long long int v=0;
     int sign=0;
     while ( *s == ' '  ||  (unsigned int)(*s - 9) < 5u) ++s;
     switch (*s) 

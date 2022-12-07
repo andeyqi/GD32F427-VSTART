@@ -25,6 +25,6 @@
 int myatoi(const char* s);
 int myatohex(const char* s);
 unsigned int myatohexuint(const char* s);
-long int myatol(const char* s);
+long long int myatol(const char* s);
 
 #endif /* end of __UTILITIES_H__ */
