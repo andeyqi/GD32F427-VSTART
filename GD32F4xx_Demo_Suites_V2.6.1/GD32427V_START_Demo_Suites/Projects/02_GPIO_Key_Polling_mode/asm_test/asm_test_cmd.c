@@ -4,9 +4,13 @@
 #include <stdint.h>
 #include <stdio.h>
 
+long long p_uint64 = 0x00u;
+
 unsigned int asmtest(char argc,char ** argv)
 {
     int cmd  = 0;
+    long long a = 0xffffffff;
+    long long b = 0x01;
 
     if(argc == 1 )
         return 0;
@@ -32,6 +36,14 @@ unsigned int asmtest(char argc,char ** argv)
     case 5:
         asm_test_add();
         break;
+    case 6:
+        printf("%llx \r\n",asm_test_ldrd(&a,&b));
+        break;
+    case 7:
+        p_uint64 = 0x1fffffff00000000;
+        asm_test_sub();
+        printf("%llx \r\n",p_uint64);
+        break;        
     default:
         break;
     }

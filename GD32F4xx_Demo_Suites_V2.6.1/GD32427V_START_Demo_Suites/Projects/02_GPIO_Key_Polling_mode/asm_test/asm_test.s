@@ -7,6 +7,10 @@
     PUBLIC asm_test_mvn
     PUBLIC asm_test_asr  
     PUBLIC asm_test_add
+    PUBLIC asm_test_sub
+    PUBLIC asm_test_ldrd
+
+    EXTERN p_uint64
 
 asm_test_bfi:
     ldr r0,=0xaabbccff
@@ -69,17 +73,42 @@ asm_test_asr:
 
     bx lr 
 
+#define TEST_LABEL  0xfffffff0
+
 asm_test_add:
-    ldr r0,=0xfffffff0
+    ldr r0,=TEST_LABEL
     adds r1,r0,#1
     movs r0,#0x00
-    ldr r0,=0xfffffff0
+    ldr r0,=TEST_LABEL
     adds r1,r0,#1
     ldr r0,=0xffffffff
     adds r1,r0,#1
     ldr r0,=0x7fffffff
     adds r1,r0,#1
     bx lr
+
+asm_test_ldrd:
+    push {r4,r5}
+    ldrd r2,r3,[r0]
+    ldrd r4,r5,[r1]
+    adds r0,r2,r4
+    adc  r1,r3,r5
+    pop  {r4,r5}  
+    bx lr
+
+asm_test_sub:
+    push {r4,r5}
+    ldr	r0, =p_uint64
+    ldr r2,[r0],#0x04
+    ldr r3,[r0]
+    ldr r4,=0x01
+    ldr r5,=0x00
+    subs r0,r2,r4
+    sbc  r1,r3,r5
+    ldr r3,=p_uint64
+    strd r0,r1,[r3]
+    pop  {r4,r5}    
+    bx lr    
 
 	END
 
