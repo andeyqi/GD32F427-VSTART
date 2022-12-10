@@ -349,6 +349,7 @@
                     <state>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\portable\IAR\ARM_CM4F</state>
                     <state>$PROJ_DIR$\..</state>
                     <state>$PROJ_DIR$\..\common</state>
+                    <state>$PROJ_DIR$\..\driver</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -2075,6 +2076,9 @@
             <name>$PROJ_DIR$\..\common\crc32.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\common\ringbuffer.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\common\utilities.c</name>
         </file>
     </group>
@@ -2082,6 +2086,12 @@
         <name>Doc</name>
         <file>
             <name>$PROJ_DIR$\..\readme.txt</name>
+        </file>
+    </group>
+    <group>
+        <name>driver</name>
+        <file>
+            <name>$PROJ_DIR$\..\driver\uart.c</name>
         </file>
     </group>
     <group>
