@@ -14,7 +14,7 @@ unsigned int asmtest(char argc,char ** argv)
 
     if(argc == 1 )
         return 0;
-    
+
     cmd = myatoi(argv[1]);
     switch(cmd)
     {
@@ -43,11 +43,14 @@ unsigned int asmtest(char argc,char ** argv)
         p_uint64 = 0x1fffffff00000000;
         asm_test_sub();
         printf("%llx \r\n",p_uint64);
-        break;        
+        break;
+    case 8:
+        asm_test_ldr();
+        break;
     default:
         break;
     }
-    
+
     return 1;
 }
 LTSH_FUNCTION_EXPORT(asmtest,"dump addr value");
@@ -55,9 +58,9 @@ LTSH_FUNCTION_EXPORT(asmtest,"dump addr value");
 typedef struct
 {
 
-    uint8_t byte0 : 8; 
-    uint8_t byte1 : 8; 
-    uint8_t byte2 : 8; 
+    uint8_t byte0 : 8;
+    uint8_t byte1 : 8;
+    uint8_t byte2 : 8;
     uint8_t byte3_bit0_3: 4;
     uint8_t byte3_bit4 : 1;
     uint8_t byte3_bit5_7 : 3;
@@ -75,14 +78,14 @@ unsigned int asmctest(char argc,char ** argv)
 
     if(argc == 1 )
         return 0;
-    
+
     cmd = myatoi(argv[1]);
     switch(cmd)
     {
     case 0:
         bit_domain.byte3_bit0_3 = myatoi(argv[2]);
         printf("asm test c bfi %x \r\n",bit_domain.byte3_bit0_3);
-        break; 
+        break;
     case 1:
         printf("%x %x %x\r\n",asr/2,asr>>4,uasr>>5);
         break;
@@ -92,7 +95,7 @@ unsigned int asmctest(char argc,char ** argv)
     default:
         break;
     }
-    
+
     return 1;
 }
 LTSH_FUNCTION_EXPORT(asmctest,"test c sam");

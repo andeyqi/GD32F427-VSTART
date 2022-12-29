@@ -5,10 +5,11 @@
     PUBLIC asm_test_ror
     PUBLIC asm_test_mov
     PUBLIC asm_test_mvn
-    PUBLIC asm_test_asr  
+    PUBLIC asm_test_asr
     PUBLIC asm_test_add
     PUBLIC asm_test_sub
     PUBLIC asm_test_ldrd
+    PUBLIC asm_test_ldr
 
     EXTERN p_uint64
 
@@ -18,9 +19,9 @@ asm_test_bfi:
     ldr r2,=0x00000000
     bfi r1,r0,#0,#8 /* copy r0 bit0-7 to r2 bit0-7 */
     bfi r2,r0,#1,#10 /* cpoy r0 bit0-9 t0 r2 bit1-bit10 */
-    
+
     bx lr
-    
+
 /*Rotate Right (immediate) provides the value of the contents of a register rotated by a constant value. The bits that
 are rotated off the right end are inserted into the vacated bit positions on the left. It can optionally update the
 condition flags based on the result.
@@ -31,8 +32,8 @@ asm_test_ror:
     ldr r2,=0x00000000
     ror r1,r0,#16 /* r1 = 0xccddaabb */
     ror r2,r0,#24 /* r2 = 0xbbccddaa */
-    
-    bx lr    
+
+    bx lr
 
 
 asm_test_mov:
@@ -53,7 +54,7 @@ asm_test_mvn:
                         ;MOVT{cond} Rd, #imm16,
                         ;Move Top.
                         ;Rd must not be SP and must not be PC.
-    movw r1,#0xf123     ;The MOVW instruction provides the same function as MOV, 
+    movw r1,#0xf123     ;The MOVW instruction provides the same function as MOV,
                         ;but is restricted to using the imm16operand.
 
     bx lr
@@ -64,14 +65,14 @@ asm_test_asr:
     asr r1,r0,#2       ;r1 = 3  0b0011
     asr r1,r0,#3       ;r1 = 1  0b0001
     asr r1,r0,#4       ;r1 = 0  0b0000
-    
+
     mov r0,#0xfffffff0 ;r0 = -16
     asr r1,r0,#1       ;r1 = -8 0xfffffff8
     asr r1,r0,#2       ;r1 =-4  0xfffffffc
     asr r1,r0,#3       ;r1=-2   0xfffffffe
     asr r1,r0,#4       ;r1=-1   0xffffffff
 
-    bx lr 
+    bx lr
 
 #define TEST_LABEL  0xfffffff0
 
@@ -93,7 +94,7 @@ asm_test_ldrd:
     ldrd r4,r5,[r1]
     adds r0,r2,r4
     adc  r1,r3,r5
-    pop  {r4,r5}  
+    pop  {r4,r5}
     bx lr
 
 asm_test_sub:
@@ -107,8 +108,21 @@ asm_test_sub:
     sbc  r1,r3,r5
     ldr r3,=p_uint64
     strd r0,r1,[r3]
-    pop  {r4,r5}    
-    bx lr    
+    pop  {r4,r5}
+    bx lr
+
+asm_test_ldr:
+    ldr r0,=0x00
+    ldr r1,[r0,#4]! ;r0 = r0 + 4 then r1 = [r0]
+    ldr r0,=0x00
+    ldr r1,[r0],#4 ;r1 = [r0] then r0 = r0+4
+    ldr r0,=0x00
+    ldr r1,=0x02
+    ldr r2,[r0,r1,lsl #2] ;r1 = [r0] then r0 = r0+4
+    ldr r0,=0x00
+    ldmia r0!,{r1-r3}
+
+    bx lr
 
 	END
 

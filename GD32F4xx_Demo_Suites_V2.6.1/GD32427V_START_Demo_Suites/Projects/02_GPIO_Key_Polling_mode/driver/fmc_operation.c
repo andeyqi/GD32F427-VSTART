@@ -37,6 +37,7 @@ OF SUCH DAMAGE.
 
 #include "fmc_operation.h"
 #include "gd32f4xx.h"
+#include "littleshell.h"
 
 /*!
     \brief      get the sector number, size and range of the given address
@@ -366,3 +367,19 @@ void fmc_read_8bit_data(uint32_t address, uint16_t length, int8_t* data_8)
     printf("\r\n");
 }
 
+
+
+unsigned int flashtest(char argc,char ** argv)
+{
+    int8_t data_8_1[10] = {0x3D,0x3D,0x3D,0x3D,0x3D,0x3D,0x3D,0x3D,0x3D,0x3D};
+    uint8_t rdata[10] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+    
+    fmc_write_8bit_data(0x08080000,10,data_8_1);
+    
+    fmc_read_8bit_data(0x08080000,10,rdata);
+    
+    printf("[%x][%x][%x][%x][%x][%x][%x][%x][%x][%x]\r\n",rdata[0],rdata[1],rdata[2],rdata[3],rdata[4],rdata[5],rdata[6],rdata[7],rdata[8],rdata[9]);
+    
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(flashtest,"test flash api");
