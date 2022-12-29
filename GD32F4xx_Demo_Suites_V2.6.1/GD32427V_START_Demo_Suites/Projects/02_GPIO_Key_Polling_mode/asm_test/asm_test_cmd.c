@@ -11,6 +11,8 @@ unsigned int asmtest(char argc,char ** argv)
     int cmd  = 0;
     long long a = 0xffffffff;
     long long b = 0x01;
+    char src[] = "hello world";
+    char dst[20] = {'\0'};
 
     if(argc == 1 )
         return 0;
@@ -46,6 +48,10 @@ unsigned int asmtest(char argc,char ** argv)
         break;
     case 8:
         asm_test_ldr();
+        break;
+    case 9:
+        asm_test_strcpy(dst,src);
+        printf("src %s dst %s.\r\n",src,dst);
         break;
     default:
         break;

@@ -10,6 +10,7 @@
     PUBLIC asm_test_sub
     PUBLIC asm_test_ldrd
     PUBLIC asm_test_ldr
+    PUBLIC asm_test_strcpy
 
     EXTERN p_uint64
 
@@ -121,6 +122,14 @@ asm_test_ldr:
     ldr r2,[r0,r1,lsl #2] ;r1 = [r0] then r0 = r0+4
     ldr r0,=0x00
     ldmia r0!,{r1-r3}
+
+    bx lr
+
+asm_test_strcpy:
+    ldrb r2,[r1],#1
+    strb r2,[r0],#1
+    cmp  r2,#0
+    bne asm_test_strcpy
 
     bx lr
 
