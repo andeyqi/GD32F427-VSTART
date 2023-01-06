@@ -2094,6 +2094,9 @@
             <name>$PROJ_DIR$\..\driver\fmc_operation.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\driver\mpu.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\driver\uart.c</name>
         </file>
     </group>

@@ -34,6 +34,7 @@ OF SUCH DAMAGE.
 
 #include "gd32f4xx_it.h"
 #include "systick.h"
+#include <stdio.h>
 
 /*!
     \brief      this function handles NMI exception
@@ -66,6 +67,7 @@ void HardFault_Handler(void)
 */
 void MemManage_Handler(void)
 {
+    printf("MemManage_Handler \r\n");
     /* if Memory Manage exception occurs, go to infinite loop */
     while(1) {
     }
