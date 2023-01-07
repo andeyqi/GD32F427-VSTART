@@ -6,14 +6,14 @@
 unsigned int dumpaddr(char argc,char ** argv)
 {
     unsigned int addr = 0;
-    
+
     if(argc != 2)
         return 0;
 
     addr = myatohexuint(argv[1]);
 
     printf("0x%x -> [0x%08x] \r\n",addr,REG32(addr));
-    
+
     return 1;
 }
 LTSH_FUNCTION_EXPORT(dumpaddr,"dump addr value");
@@ -31,12 +31,24 @@ void print_num(int count, ...)
     }
 }
 
+void my_printf(char *fmt,...)
+{
+    va_list args;
+    va_start(args,fmt);
+    vprintf(fmt,args);
+    va_end(args);
+}
 
+#define LOG(fmt, ...) printf(fmt, ##__VA_ARGS__)
+#define DEBUG(...) printf(__VA_ARGS__)
 
 unsigned int args(char argc,char ** argv)
 {
 
     print_num(5,1,2,3,4,5);
+    my_printf("my printf %d\r\n",100);
+    LOG("Hello! I'm %s\r\n","Qihengchuan");
+    DEBUG("Hello! I'm %s\r\n","Qihengchuan");
 
     return 1;
 }
