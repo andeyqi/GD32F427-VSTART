@@ -11,6 +11,7 @@
     PUBLIC asm_test_ldrd
     PUBLIC asm_test_ldr
     PUBLIC asm_test_strcpy
+    PUBLIC asm_test_nop
 
     EXTERN p_uint64
 
@@ -132,6 +133,13 @@ asm_test_strcpy:
     bne asm_test_strcpy
 
     bx lr
+
+asm_test_nop:
+    nop
+    nop
+    nop
+
+    bLx lr
 
 	END
 

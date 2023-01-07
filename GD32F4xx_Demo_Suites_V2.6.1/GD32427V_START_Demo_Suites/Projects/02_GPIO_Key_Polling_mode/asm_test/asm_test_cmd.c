@@ -53,6 +53,14 @@ unsigned int asmtest(char argc,char ** argv)
         asm_test_strcpy(dst,src);
         printf("src %s dst %s.\r\n",src,dst);
         break;
+    case 10:
+        asm_test_nop();
+        break;
+    case 11:
+        p_uint64 = 0x1fffffff00000000;
+        printf("subc %llx \r\n",p_uint64 - myatoi(argv[2]));
+        printf("addc %llx \r\n",p_uint64 + myatoi(argv[2]));
+        break;
     default:
         break;
     }
