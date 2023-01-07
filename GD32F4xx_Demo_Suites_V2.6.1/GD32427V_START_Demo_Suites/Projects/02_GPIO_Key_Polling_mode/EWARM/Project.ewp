@@ -2076,6 +2076,9 @@
             <name>$PROJ_DIR$\..\common\crc32.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\common\debug.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\common\ringbuffer.c</name>
         </file>
         <file>
