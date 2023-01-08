@@ -19,7 +19,7 @@ asm_test_bfi:
     ldr r0,=0xaabbccff
     ldr r1,=0x00000000
     ldr r2,=0x00000000
-    bfi r1,r0,#0,#8 /* copy r0 bit0-7 to r2 bit0-7 */
+    bfi r1,r0,#0,#8 /* copy r0 bit0-7 to r1 bit0-7 */
     bfi r2,r0,#1,#10 /* cpoy r0 bit0-9 t0 r2 bit1-bit10 */
 
     bx lr
@@ -138,6 +138,14 @@ asm_test_nop:
     nop
     nop
     nop
+    ldr r0,=0xfffffff4
+    lsls r0,r0,#29
+    ldr r0,=0xfffffff4
+    lsls r0,r0,#28
+    ldr r0,=0xfffffff4
+    lsls r0,r0,#30
+    ldr r0,=0xfffffff4
+    lsls r0,r0,#1
 
     bLx lr
 
