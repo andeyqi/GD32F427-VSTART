@@ -59,12 +59,14 @@ unsigned int section(char argc,char ** argv)
 {
       #pragma section = ".bss"
       #pragma section = ".data"
+      #pragma section = ".data_init"
 
     /* BSS */
     printf("BSS start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".bss"),__section_end(".bss"),__section_size(".bss"));
     /* DATA */
     printf("DATA start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".data"),__section_end(".data"),__section_size(".data"));
-
+    /* DATAROM */
+    printf("DATAINIT start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".data_init"),__section_end(".data_init"),__section_size(".data_init"));
     return 1;
 }
 LTSH_FUNCTION_EXPORT(section,"test args");

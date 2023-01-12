@@ -4,7 +4,7 @@ set BIN=%1.bin
 set HEX=%1.hex
 set ASM=%1.asm
 
-ielfdumparm.exe %OUT% -o %ASM%  --code
+ielfdumparm.exe %OUT% -o %ASM%  --all
 
 :: this is for two ROMs fill and divide calculate the ROMs CRC.
 :: fill and calculate CRC for two ROMs 
