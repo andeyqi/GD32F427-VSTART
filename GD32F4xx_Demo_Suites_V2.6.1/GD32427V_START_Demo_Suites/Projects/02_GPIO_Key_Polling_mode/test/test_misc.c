@@ -57,9 +57,12 @@ LTSH_FUNCTION_EXPORT(args,"test args");
 
 unsigned int section(char argc,char ** argv)
 {
-      #pragma section = ".bss"
-      #pragma section = ".data"
-      #pragma section = ".data_init"
+    #pragma section = ".bss"
+    #pragma section = ".data"
+    #pragma section = ".data_init"
+
+    static int i = 100;
+    printf("%d\r\n",i/argc);
 
     /* BSS */
     printf("BSS start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".bss"),__section_end(".bss"),__section_size(".bss"));
