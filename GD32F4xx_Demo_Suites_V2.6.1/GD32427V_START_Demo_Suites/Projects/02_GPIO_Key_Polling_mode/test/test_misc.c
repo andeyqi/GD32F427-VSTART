@@ -64,6 +64,8 @@ unsigned int section(char argc,char ** argv)
     #pragma section = ".rodata"
     #pragma section = ".rodata.name"
     #pragma section = "FSymTab"
+    #pragma section = "ASM_TEST_CODE"
+    #pragma section = "CODE"
 
     static int i = 100;
     printf("%d\r\n",i/argc);
@@ -76,6 +78,10 @@ unsigned int section(char argc,char ** argv)
     printf("FSymTab start 0x%x end 0x%x size 0x%x\r\n",__section_begin("FSymTab"),__section_end("FSymTab"),__section_size("FSymTab"));
     /* .text */
     printf(".text start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".text"),__section_end(".text"),__section_size(".text"));
+    /* ASM_TEST_CODE */
+    printf("ASM_TEST_CODE start 0x%x end 0x%x size 0x%x\r\n",__section_begin("ASM_TEST_CODE"),__section_end("ASM_TEST_CODE"),__section_size("ASM_TEST_CODE"));
+    /* CODE */
+    printf("CODE start 0x%x end 0x%x size 0x%x\r\n",__section_begin("CODE"),__section_end("CODE"),__section_size("CODE"));
     /* .bss */
     printf(".bss start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".bss"),__section_end(".bss"),__section_size(".bss"));
     /* .data */
