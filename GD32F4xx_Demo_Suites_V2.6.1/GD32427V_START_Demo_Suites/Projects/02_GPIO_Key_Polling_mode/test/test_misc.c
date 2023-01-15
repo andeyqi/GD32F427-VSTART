@@ -60,16 +60,28 @@ unsigned int section(char argc,char ** argv)
     #pragma section = ".bss"
     #pragma section = ".data"
     #pragma section = ".data_init"
+    #pragma section = ".text"
+    #pragma section = ".rodata"
+    #pragma section = ".rodata.name"
+    #pragma section = "FSymTab"
 
     static int i = 100;
     printf("%d\r\n",i/argc);
 
-    /* BSS */
-    printf("BSS start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".bss"),__section_end(".bss"),__section_size(".bss"));
-    /* DATA */
-    printf("DATA start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".data"),__section_end(".data"),__section_size(".data"));
-    /* DATAROM */
-    printf("DATAINIT start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".data_init"),__section_end(".data_init"),__section_size(".data_init"));
+    /* .rodata */
+    printf(".rodata start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".rodata"),__section_end(".rodata"),__section_size(".rodata"));
+    /* .rodata.name */
+    printf(".rodata.name start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".rodata.name"),__section_end(".rodata.name"),__section_size(".rodata.name"));
+    /* FSymTab */
+    printf("FSymTab start 0x%x end 0x%x size 0x%x\r\n",__section_begin("FSymTab"),__section_end("FSymTab"),__section_size("FSymTab"));
+    /* .text */
+    printf(".text start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".text"),__section_end(".text"),__section_size(".text"));
+    /* .bss */
+    printf(".bss start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".bss"),__section_end(".bss"),__section_size(".bss"));
+    /* .data */
+    printf(".data start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".data"),__section_end(".data"),__section_size(".data"));
+    /* .data_init */
+    printf(".data_init start 0x%x end 0x%x size 0x%x\r\n",__section_begin(".data_init"),__section_end(".data_init"),__section_size(".data_init"));
     return 1;
 }
 LTSH_FUNCTION_EXPORT(section,"test args");
