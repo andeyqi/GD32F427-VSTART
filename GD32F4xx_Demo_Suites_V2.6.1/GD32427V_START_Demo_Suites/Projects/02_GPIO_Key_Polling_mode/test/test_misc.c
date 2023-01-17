@@ -2,6 +2,22 @@
 #include <stdio.h>
 #include "littleshell.h"
 #include "utilities.h"
+#include "debug.h"
+
+unsigned int dumpreg(char argc,char ** argv)
+{
+    unsigned int addr = 0;
+    unsigned int len = 0;
+
+    addr = myatohexuint(argv[1]);
+    len = atoi(argv[2]);
+
+    trace_word_stream(((uint32_t *)(uint32_t)(addr)),len);
+
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(dumpreg,"dump reg value");
+
 
 unsigned int dumpaddr(char argc,char ** argv)
 {
