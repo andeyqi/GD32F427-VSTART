@@ -76,3 +76,15 @@ int fputc(int ch, FILE *f)
     while(RESET == usart_flag_get(USART0, USART_FLAG_TBE));
     return ch;
 }
+
+size_t __write(int handle, const unsigned char *buf, size_t size)
+{
+    size_t i = 0;
+    for(i = 0 ;i < size;i++)
+    {
+        usart_data_transmit(USART0, (uint8_t)buf[i]);
+        while(RESET == usart_flag_get(USART0, USART_FLAG_TBE));
+    }
+    
+    return i;
+}
