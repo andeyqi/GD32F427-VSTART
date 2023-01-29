@@ -107,3 +107,50 @@ unsigned int section(char argc,char ** argv)
     return 1;
 }
 LTSH_FUNCTION_EXPORT(section,"test args");
+
+
+unsigned int status(char argc,char ** argv)
+{
+    printf("tick %d\r\n",xTaskGetTickCount());
+
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(status,"show system status");
+
+struct stu1{
+uint32_t a1;
+uint8_t a2[5];
+uint32_t a3;
+};
+struct stu1 my_stu1 @ 0X20001000 = {0};
+
+struct stu2{
+uint8_t a1;
+uint8_t a2[5];
+uint32_t a3;
+};
+struct stu2 my_stu2 @ 0X20001100 = {0};
+
+
+unsigned int aligen(char argc,char ** argv)
+{
+    uint32_t i = 0;
+    uint8_t x1 = 100;
+
+    for(i = 0;i < 1000;i++)
+    {
+        my_stu1.a2[0] += x1;
+        if( my_stu1.a2[0] > 200)
+            my_stu1.a2[0] = 0;
+    }
+
+    for(i = 0;i < 1000;i++)
+    {
+        my_stu2.a2[0] += x1;
+        if( my_stu2.a2[0] > 200)
+            my_stu2.a2[0] = 0;
+    }
+
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(aligen,"show aligen test");
