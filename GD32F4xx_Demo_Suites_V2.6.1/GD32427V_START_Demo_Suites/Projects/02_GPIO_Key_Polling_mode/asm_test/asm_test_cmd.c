@@ -61,6 +61,9 @@ unsigned int asmtest(char argc,char ** argv)
         printf("subc %llx \r\n",p_uint64 - myatoi(argv[2]));
         printf("addc %llx \r\n",p_uint64 + myatoi(argv[2]));
         break;
+    case 12:
+        asm_test_nzcv();
+        break;
     default:
         break;
     }

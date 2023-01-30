@@ -11,4 +11,5 @@ long long asm_test_ldrd(long long *a,long long *b);
 void asm_test_strcpy(char * dst,char * src);
 void asm_test_ldr(void);
 void asm_test_nop(void);
+void asm_test_nzcv(void);
 
