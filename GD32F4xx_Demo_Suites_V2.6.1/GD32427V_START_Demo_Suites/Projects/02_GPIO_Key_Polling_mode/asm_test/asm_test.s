@@ -13,6 +13,7 @@
     PUBLIC asm_test_strcpy
     PUBLIC asm_test_nop
     PUBLIC asm_test_nzcv
+    PUBLIC asm_test_cmn
 
     EXTERN p_uint64
 
@@ -175,6 +176,14 @@ asm_test_nzcv:
                   ;= 0b0001 0000 0000 0000 0000 0000 0000 0000
                   ;= 0b1000 0000 0000 0000 0000 0000 0000 0000
                   ;N = 1,Z = 0,C = 0,V = 1
+
+    bx lr
+
+asm_test_cmn:
+    ldr r0,=0xfffffffe
+    cmn r0,#1
+    cmn r0,#2
+    cmn r0,#3
 
     bx lr
 

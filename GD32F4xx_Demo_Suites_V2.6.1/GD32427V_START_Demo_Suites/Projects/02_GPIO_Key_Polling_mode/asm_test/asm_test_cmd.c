@@ -64,6 +64,9 @@ unsigned int asmtest(char argc,char ** argv)
     case 12:
         asm_test_nzcv();
         break;
+    case 13:
+        asm_test_cmn();
+        break;
     default:
         break;
     }
