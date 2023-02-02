@@ -179,6 +179,13 @@ asm_test_nzcv:
 
     bx lr
 
+/*
+The CMP instruction subtracts the value of Operand2 from the value in Rn. This is the same as a
+SUBS instruction, except that the result is discarded.
+The CMN instruction adds the value of Operand2 to the value in Rn. This is the same as an ADDS
+instruction, except that the result is discarded.
+*/
+
 asm_test_cmn:
     ldr r0,=0xfffffffe
     cmn r0,#1
