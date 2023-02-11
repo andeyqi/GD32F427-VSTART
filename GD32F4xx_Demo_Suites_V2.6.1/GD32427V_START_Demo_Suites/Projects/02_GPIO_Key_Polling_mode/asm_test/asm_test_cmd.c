@@ -13,6 +13,8 @@ unsigned int asmtest(char argc,char ** argv)
     long long b = 0x01;
     char src[] = "hello world";
     char dst[20] = {'\0'};
+    uint32_t p1,p2,p3,p4;
+    int32_t  n1,n2;
 
     if(argc == 1 )
         return 0;
@@ -66,6 +68,38 @@ unsigned int asmtest(char argc,char ** argv)
         break;
     case 13:
         asm_test_cmn();
+        break;
+    case 14:
+        p1 = (uint32_t)atoi(argv[1]);
+        p2 = (uint32_t)atoi(argv[2]);
+        p3 = (uint32_t)atoi(argv[3]);
+        p4 = (uint32_t)atoi(argv[4]);
+        if(p1 >= 1000)
+        {
+            printf("%d %d\r\n",p1,p2);
+        }
+        else if(p2 < 100)
+        {
+            printf("%d\r\n",p1-p2);
+        }
+        else if(p2 > p3)
+        {
+             printf("%d\r\n",p3);
+        }
+        else if(p1 <= p4*2)
+        {
+            printf("%d\r\n",p4);
+        }
+        n1 = (int32_t)atoi(argv[1]);
+        n2 = (int32_t)atoi(argv[2]);
+        if(n1 >= -1)
+        {
+            printf("%d %d\r\n",n1,n2);
+        }
+        else if(n2 >= -10)
+        {
+            printf("%d\r\n",n1-n2);
+        }
         break;
     default:
         break;

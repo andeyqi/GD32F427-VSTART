@@ -328,7 +328,15 @@ hold explicit before calling the code. */
 #ifndef traceTASK_SWITCHED_IN
 	/* Called after a task has been selected to run.  pxCurrentTCB holds a pointer
 	to the task control block of the selected task. */
-	#define traceTASK_SWITCHED_IN()
+	#if (configUSE_PERF_CNT == 1)
+		#define traceTASK_SWITCHED_IN()\
+		{\
+			extern void vApplicationTaskSwitchInHook(void * name,void *ptTCB);\
+			vApplicationTaskSwitchInHook((void *)pxCurrentTCB->pcTaskName,(void *)pxCurrentTCB->pxStack);\
+		}
+	#else
+		#define traceTASK_SWITCHED_IN()
+	#endif /* end of configUSE_PERF_CNT */
 #endif
 
 #ifndef traceINCREASE_TICK_COUNT
@@ -348,9 +356,15 @@ hold explicit before calling the code. */
 #endif
 
 #ifndef traceTASK_SWITCHED_OUT
-	/* Called before a task has been selected to run.  pxCurrentTCB holds a pointer
-	to the task control block of the task being switched out. */
-	#define traceTASK_SWITCHED_OUT()
+	#if (configUSE_PERF_CNT == 1)
+		#define traceTASK_SWITCHED_OUT()\
+		{\
+			extern void vApplicationTaskSwitchOutHook(void *ptTCB);\
+			vApplicationTaskSwitchOutHook((void *)pxCurrentTCB->pxStack);\
+		}
+	#else
+		#define traceTASK_SWITCHED_OUT()
+	#endif /* end of configUSE_PERF_CNT */
 #endif
 
 #ifndef traceTASK_PRIORITY_INHERIT
@@ -509,7 +523,15 @@ hold explicit before calling the code. */
 #endif
 
 #ifndef traceTASK_CREATE
-	#define traceTASK_CREATE( pxNewTCB )
+	#if ( configUSE_STACK_MAX_USAGE == 1 )
+	#define traceTASK_CREATE( pxNewTCB,usStackDepth )\
+	{\
+		extern void task_create_hook(char * name ,unsigned int deep,unsigned int * stack_tail);\
+		task_create_hook(pxNewTCB->pcTaskName,usStackDepth,pxNewTCB->pxStack);\
+	}
+	#else
+	#define traceTASK_CREATE( pxNewTCB,usStackDepth )
+	#endif
 #endif
 
 #ifndef traceTASK_CREATE_FAILED

@@ -112,7 +112,7 @@
                 </option>
                 <option>
                     <name>FlashLoadersV3</name>
-                    <state>$TOOLKIT_DIR$\config\flashloader\GD\FlashGD32F427xK.board</state>
+                    <state>$PROJ_DIR$\Project.board</state>
                 </option>
                 <option>
                     <name>OCImagesSuppressCheck1</name>

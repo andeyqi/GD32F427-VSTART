@@ -676,7 +676,7 @@
             <data>
                 <extensions></extensions>
                 <cmdline></cmdline>
-                <hasPrio>16</hasPrio>
+                <hasPrio>1</hasPrio>
                 <buildSequence>inputOutputBased</buildSequence>
             </data>
         </settings>
@@ -2191,7 +2191,13 @@
             <name>$PROJ_DIR$\..\common\debug.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\common\perf_counter.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\common\ringbuffer.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\common\stack_usage.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\common\utilities.c</name>
@@ -2222,6 +2228,9 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\event_groups.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\FreeRtosHook.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\FreeRTOSv10.3.1\Source\portable\MemMang\heap_4.c</name>

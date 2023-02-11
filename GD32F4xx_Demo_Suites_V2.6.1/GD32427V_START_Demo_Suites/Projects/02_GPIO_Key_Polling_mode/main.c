@@ -43,17 +43,17 @@ OF SUCH DAMAGE.
 #include "uart.h"
 
 #define START_TASK_PRIO        1
-#define START_STK_SIZE         128  
+#define START_STK_SIZE         128
 TaskHandle_t StartTask_Handler;
 void start_task(void *pvParameters);
 
 #define TASK1_TASK_PRIO        2
-#define TASK1_STK_SIZE         128  
+#define TASK1_STK_SIZE         128
 TaskHandle_t Task1Task_Handler;
 void start_task1(void *pvParameters);
 
 #define SHELL_TASK_PRIO        2
-#define SHELL_STK_SIZE         128  
+#define SHELL_STK_SIZE         256
 TaskHandle_t ShellTask_Handler;
 
 
@@ -61,8 +61,8 @@ void start_task(void *pvParameters)
 {
     while(1)
     {
-        printf("I am task2\r\n" );
-        vTaskDelay(20000);
+        //printf("I am task2\r\n" );
+        vTaskDelay(2);
     }
 
 }
@@ -72,8 +72,8 @@ void start_task1(void *pvParameters)
 {
     while(1)
     {
-        printf("I am task1\r\n" );
-        vTaskDelay(20000);
+        //printf("I am task1\r\n" );
+        vTaskDelay(1);
     }
 }
 
@@ -97,38 +97,39 @@ int main(void)
 
     /* enable the LEDs GPIO clock */
     rcu_periph_clock_enable(RCU_GPIOC);
+    rcu_periph_clock_enable(RCU_CRC);
 
     /* configure LED1 GPIO port */
     gpio_mode_set(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_6);
     gpio_output_options_set(GPIOC, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_6);
     /* reset LED1 GPIO pin */
     gpio_bit_reset(GPIOC, GPIO_PIN_6);
-    
+
     uart_init();
-    
+
     (void)show_board_info();
 
 
-    xTaskCreate((TaskFunction_t )start_task,           
-                (const char*    )"start_task1",        
-                (uint16_t       )START_STK_SIZE,      
-                (void*          )NULL,                  
-                (UBaseType_t    )START_TASK_PRIO,      
-                (TaskHandle_t*  )&StartTask_Handler); 
-    
-    xTaskCreate((TaskFunction_t )start_task1,           
-                (const char*    )"start_task2",        
-                (uint16_t       )TASK1_STK_SIZE,      
-                (void*          )NULL,                  
-                (UBaseType_t    )TASK1_TASK_PRIO,      
-                (TaskHandle_t*  )&Task1Task_Handler); 
-    
-    xTaskCreate((TaskFunction_t )littleshell_main_entry,           
-                (const char*    )"shell_task",        
-                (uint16_t       )SHELL_STK_SIZE,      
-                (void*          )NULL,                  
-                (UBaseType_t    )SHELL_TASK_PRIO,      
-                (TaskHandle_t*  )&Task1Task_Handler); 
+    xTaskCreate((TaskFunction_t )start_task,
+                (const char*    )"task1",
+                (uint16_t       )START_STK_SIZE,
+                (void*          )NULL,
+                (UBaseType_t    )START_TASK_PRIO,
+                (TaskHandle_t*  )&StartTask_Handler);
+
+    xTaskCreate((TaskFunction_t )start_task1,
+                (const char*    )"task2",
+                (uint16_t       )TASK1_STK_SIZE,
+                (void*          )NULL,
+                (UBaseType_t    )TASK1_TASK_PRIO,
+                (TaskHandle_t*  )&Task1Task_Handler);
+
+    xTaskCreate((TaskFunction_t )littleshell_main_entry,
+                (const char*    )"shell",
+                (uint16_t       )SHELL_STK_SIZE,
+                (void*          )NULL,
+                (UBaseType_t    )SHELL_TASK_PRIO,
+                (TaskHandle_t*  )&Task1Task_Handler);
     vTaskStartScheduler();
 }
 

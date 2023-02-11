@@ -561,7 +561,7 @@ static void prvInitialiseNewTask( 	TaskFunction_t pxTaskCode,
  * Called after a new task has been created and initialised to place the task
  * under the control of the scheduler.
  */
-static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB ) PRIVILEGED_FUNCTION;
+static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB ,uint32_t usStackDepth) PRIVILEGED_FUNCTION;
 
 /*
  * freertos_tasks_c_additions_init() should only be called if the user definable
@@ -620,7 +620,7 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB ) PRIVILEGED_FUNCTION;
 			#endif /* tskSTATIC_AND_DYNAMIC_ALLOCATION_POSSIBLE */
 
 			prvInitialiseNewTask( pxTaskCode, pcName, ulStackDepth, pvParameters, uxPriority, &xReturn, pxNewTCB, NULL );
-			prvAddNewTaskToReadyList( pxNewTCB );
+			prvAddNewTaskToReadyList( pxNewTCB ,usStackDepth);
 		}
 		else
 		{
@@ -669,7 +669,7 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB ) PRIVILEGED_FUNCTION;
 									pxCreatedTask, pxNewTCB,
 									pxTaskDefinition->xRegions );
 
-			prvAddNewTaskToReadyList( pxNewTCB );
+			prvAddNewTaskToReadyList( pxNewTCB ,( uint32_t ) pxTaskDefinition->usStackDepth );
 			xReturn = pdPASS;
 		}
 
@@ -717,7 +717,7 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB ) PRIVILEGED_FUNCTION;
 										pxCreatedTask, pxNewTCB,
 										pxTaskDefinition->xRegions );
 
-				prvAddNewTaskToReadyList( pxNewTCB );
+				prvAddNewTaskToReadyList( pxNewTCB ,( uint32_t ) pxTaskDefinition->usStackDepth );
 				xReturn = pdPASS;
 			}
 		}
@@ -807,7 +807,7 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB ) PRIVILEGED_FUNCTION;
 			#endif /* tskSTATIC_AND_DYNAMIC_ALLOCATION_POSSIBLE */
 
 			prvInitialiseNewTask( pxTaskCode, pcName, ( uint32_t ) usStackDepth, pvParameters, uxPriority, pxCreatedTask, pxNewTCB, NULL );
-			prvAddNewTaskToReadyList( pxNewTCB );
+			prvAddNewTaskToReadyList( pxNewTCB ,( uint32_t ) usStackDepth );
 			xReturn = pdPASS;
 		}
 		else
@@ -1074,7 +1074,7 @@ UBaseType_t x;
 }
 /*-----------------------------------------------------------*/
 
-static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
+static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB ,uint32_t usStackDepth )
 {
 	/* Ensure interrupts don't access the task lists while the lists are being
 	updated. */
@@ -1129,7 +1129,7 @@ static void prvAddNewTaskToReadyList( TCB_t *pxNewTCB )
 			pxNewTCB->uxTCBNumber = uxTaskNumber;
 		}
 		#endif /* configUSE_TRACE_FACILITY */
-		traceTASK_CREATE( pxNewTCB );
+		traceTASK_CREATE( pxNewTCB ,usStackDepth );
 
 		prvAddTaskToReadyList( pxNewTCB );
 
