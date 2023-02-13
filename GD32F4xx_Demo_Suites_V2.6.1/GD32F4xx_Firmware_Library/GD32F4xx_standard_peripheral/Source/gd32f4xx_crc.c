@@ -156,3 +156,17 @@ uint32_t crc_block_data_calculate2(uint32_t array[], uint32_t size)
     }
     return (CRC_DATA);
 }
+
+uint32_t crc_block_data_calculate3(uint32_t array[], uint32_t size)
+{
+    uint32_t index;
+    uint32_t crc;
+
+    for(index = 0U; index < size; index++) {
+        asm("rev %0,%1"
+            : "=r"(crc)
+            : "r"(array[index]));
+        CRC_DATA = crc;
+    }
+    return (CRC_DATA);
+}

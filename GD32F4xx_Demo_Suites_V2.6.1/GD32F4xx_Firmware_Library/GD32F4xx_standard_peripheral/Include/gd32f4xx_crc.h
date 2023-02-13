@@ -81,5 +81,6 @@ uint32_t crc_block_data_calculate(uint32_t array[], uint32_t size);
 uint32_t crc_block_data_calculate1(uint8_t array[], uint32_t size);
 /* calculate the CRC value of an array of 32-bit values */
 uint32_t crc_block_data_calculate2(uint32_t array[], uint32_t size);
-
+/* calculate the CRC value of an array of 32-bit values */
+uint32_t crc_block_data_calculate3(uint32_t array[], uint32_t size);
 #endif /* GD32F4XX_CRC_H */
