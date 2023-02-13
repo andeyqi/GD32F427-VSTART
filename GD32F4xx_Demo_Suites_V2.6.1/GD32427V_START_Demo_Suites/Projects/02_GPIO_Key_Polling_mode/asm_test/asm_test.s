@@ -14,6 +14,7 @@
     PUBLIC asm_test_nop
     PUBLIC asm_test_nzcv
     PUBLIC asm_test_cmn
+    PUBLIC asm_rev
 
     EXTERN p_uint64
 
@@ -202,6 +203,10 @@ asm_test_cmn:
 
     bx lr
 
+asm_rev:
+    mov r1,r0
+    rev r0,r1
+    bx lr
 
 	END
 
