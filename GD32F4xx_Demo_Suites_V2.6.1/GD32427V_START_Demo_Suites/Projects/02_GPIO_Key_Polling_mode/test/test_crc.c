@@ -79,9 +79,19 @@ unsigned int crchard(char argc,char ** argv)
      printf("crc32_mpeg2_fast %x %d\r\n",sum,counter);
 
      start_cycle_counter();
+     sum = crc32_mpeg2_fast1(0xffffffff,(unsigned char*)test,40);
+     counter = stop_cycle_counter();
+     printf("crc32_mpeg2_fast1 %x %d\r\n",sum,counter);
+
+     start_cycle_counter();
      sum = crc32_mpeg2_slow(0xffffffff,(unsigned char*)test,40);
      counter = stop_cycle_counter();
      printf("crc32_mpeg2_slow %x %d\r\n",sum,counter);
+
+     start_cycle_counter();
+     sum = crc32_mpeg2_slow1(0xffffffff,(unsigned char*)test,40);
+     counter = stop_cycle_counter();
+     printf("crc32_mpeg2_slow2 %x %d\r\n",sum,counter);
 
      return 1;
 }

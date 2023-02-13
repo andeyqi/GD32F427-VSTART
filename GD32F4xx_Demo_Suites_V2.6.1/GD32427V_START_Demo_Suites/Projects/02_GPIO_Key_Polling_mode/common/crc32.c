@@ -140,6 +140,32 @@ unsigned int crc32_mpeg2_slow(unsigned long init,unsigned char *ptr, unsigned in
 }
 
 
+unsigned int crc32_mpeg2_slow1(unsigned long init,unsigned char *ptr, unsigned int len)
+{
+  unsigned int i;
+  unsigned int crc = init;
+  unsigned int j = 0,index = 0;
+
+  if(j%4)
+    return 0u;
+
+  while(j < len)
+  {
+    index = (j/4)*4 + (3-(j%4));
+    crc ^= (unsigned int)(ptr[index]) << 24;
+    for (i = 0; i < 8; ++i)
+    {
+      if (crc & 0x80000000)
+        crc = (crc << 1) ^ POLY;
+      else
+        crc <<= 1;
+    }
+    j++;
+  }
+
+  return crc;
+}
+
 unsigned int crc32_mpeg2_fast(unsigned long init,unsigned char *ptr, unsigned int len)
 {
   unsigned int crc = init;
@@ -147,6 +173,25 @@ unsigned int crc32_mpeg2_fast(unsigned long init,unsigned char *ptr, unsigned in
   while(len--)
   {
     crc = (crc << 8u) ^ crc32_table[(crc >> 24u ^ *ptr++) & 0xffu];
+  }
+
+  return crc;
+}
+
+
+unsigned int crc32_mpeg2_fast1(unsigned long init,unsigned char *ptr, unsigned int len)
+{
+  unsigned int crc = init;
+  unsigned int i = 0,index = 0;
+
+  if(len%4)
+    return 0x00u;
+
+  while(i < len)
+  {
+    index = (i/4)*4 + (3-(i%4));
+    crc = (crc << 8u) ^ crc32_table[(crc >> 24u ^ ptr[index]) & 0xffu];
+    i++;
   }
 
   return crc;
