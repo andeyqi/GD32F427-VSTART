@@ -117,3 +117,37 @@ unsigned long set_crc32_init_value(unsigned long start)
     }
   return init;
 }
+
+
+unsigned int crc32_mpeg2_slow(unsigned long init,unsigned char *ptr, unsigned int len)
+{
+  unsigned int i;
+  unsigned int crc = init;
+
+  while(len--)
+  {
+    crc ^= (unsigned int)(*ptr++) << 24;
+    for (i = 0; i < 8; ++i)
+    {
+      if (crc & 0x80000000)
+        crc = (crc << 1) ^ POLY;
+      else
+        crc <<= 1;
+    }
+  }
+
+  return crc;
+}
+
+
+unsigned int crc32_mpeg2_fast(unsigned long init,unsigned char *ptr, unsigned int len)
+{
+  unsigned int crc = init;
+
+  while(len--)
+  {
+    crc = (crc << 8u) ^ crc32_table[(crc >> 24u ^ *ptr++) & 0xffu];
+  }
+
+  return crc;
+}

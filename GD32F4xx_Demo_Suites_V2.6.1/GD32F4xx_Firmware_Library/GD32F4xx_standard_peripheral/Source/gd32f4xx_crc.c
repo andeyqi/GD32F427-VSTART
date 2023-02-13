@@ -128,3 +128,19 @@ uint32_t crc_block_data_calculate(uint32_t array[], uint32_t size)
     }
     return (CRC_DATA);
 }
+
+
+uint32_t crc_block_data_calculate1(uint8_t array[], uint32_t size)
+{
+    uint32_t index;
+    uint32_t crc;
+
+    for(index = 0U; index < size; index += 4) {
+        crc = array[index+3];
+        crc |= array[index+2] << 8;
+        crc |= array[index+1] << 16;
+        crc |= array[index] << 24;
+        CRC_DATA = crc;
+    }
+    return (CRC_DATA);
+}
