@@ -11,9 +11,13 @@
 #define CRC_INITIALVALUE 0xFFFFFFFF
 
 extern unsigned long __checksum;
-
+#if defined (SLOW_CRC32) || defined (FAST_CRC32)
 extern unsigned long __ICFEDIT_region_ROM_start__;
 extern unsigned long __ICFEDIT_region_ROM_end_CRC__;
+#elif defined (HARD_CRC32)
+extern unsigned int __ICFEDIT_region_ROM_start__[];
+extern unsigned int __ICFEDIT_region_ROM_end_CRC__[];
+#endif
 
 #ifdef SLOW_CRC32
 static const unsigned long zero=0;
@@ -30,8 +34,8 @@ unsigned int crc(char argc,char ** argv)
                       (unsigned long)&__ICFEDIT_region_ROM_end_CRC__  - (unsigned long)&__ICFEDIT_region_ROM_start__ + 1);
 #elif defined HARD_CRC32
      crc_data_register_reset();
-     sum = crc_block_data_calculate3((unsigned int*)&__ICFEDIT_region_ROM_start__,
-     ((unsigned long)&__ICFEDIT_region_ROM_end_CRC__ - (unsigned long)&__ICFEDIT_region_ROM_start__ + 1)/4);
+     sum = crc_block_data_calculate3(__ICFEDIT_region_ROM_start__,
+     __ICFEDIT_region_ROM_end_CRC__ - __ICFEDIT_region_ROM_start__ + 1);
 #endif
      if(sum!=__checksum)
      {
