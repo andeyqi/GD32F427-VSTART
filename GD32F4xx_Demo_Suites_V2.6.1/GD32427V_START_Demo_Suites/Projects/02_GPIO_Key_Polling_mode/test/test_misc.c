@@ -111,7 +111,14 @@ LTSH_FUNCTION_EXPORT(section,"test args");
 
 unsigned int status(char argc,char ** argv)
 {
+    uint32_t bootmode;
+    bootmode = REG32(SYSCFG_BASE);
+
     printf("tick %d\r\n",xTaskGetTickCount());
+    printf("boot mode %s\r\n",(GET_BITS(bootmode,0,2) == 0) ? "flash" :
+                              ((GET_BITS(bootmode,0,2) == 1) ? "system" :
+                              ((GET_BITS(bootmode,0,2) == 2) ? "sram1" :
+                              ((GET_BITS(bootmode,0,2) == 3) ? "sram2" : "Unknow"))));
 
     return 1;
 }
