@@ -4,9 +4,14 @@ set BIN=%1.bin
 set HEX=%1.hex
 set ASM=%1.asm
 set CODE_ASM=%1_code.asm
+set OUT_MAP=%1_out.map
 
 ielfdumparm.exe %OUT% -o %ASM%  --all
-ielfdumparm.exe %OUT% -o %CODE_ASM%  --code
+ielfdumparm.exe %OUT% -o %CODE_ASM%  --code --source
+
+SET READ_ELF_INS_DIR=D:\work\gcc-arm-none-eabi-10.3-2021.10\bin
+SET PATH=%PATH%;%READ_ELF_INS_DIR%
+arm-none-eabi-readelf.exe %OUT%  > %OUT_MAP%  -a
 
 :: this is for two ROMs fill and divide calculate the ROMs CRC.
 :: fill and calculate CRC for two ROMs 
