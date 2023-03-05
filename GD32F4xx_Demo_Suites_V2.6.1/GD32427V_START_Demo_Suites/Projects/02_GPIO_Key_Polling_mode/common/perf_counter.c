@@ -352,6 +352,7 @@ int64_t stop_task_cycle_counter(void)
     return lCycles;
 }
 
+#include <stdio.h>
 unsigned int perf_test(char argc,char ** argv)
 {
     int32_t counter1,counter2;

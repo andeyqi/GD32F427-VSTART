@@ -3,6 +3,7 @@
 #include "littleshell.h"
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 long long p_uint64 = 0x00u;
 

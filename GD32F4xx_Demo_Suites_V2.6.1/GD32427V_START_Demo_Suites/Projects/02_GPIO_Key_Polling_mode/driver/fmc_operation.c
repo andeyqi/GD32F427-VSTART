@@ -369,7 +369,7 @@ void fmc_read_8bit_data(uint32_t address, uint16_t length, int8_t* data_8)
 }
 
 
-
+#include <string.h>
 unsigned int flashtest(char argc,char ** argv)
 {
     int8_t data_8_1[10] = {0x3D,0x3D,0x3D,0x3D,0x3D,0x3D,0x3D,0x3D,0x3D,0x3D};
