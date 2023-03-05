@@ -161,3 +161,29 @@ unsigned int aligen(char argc,char ** argv)
     return 1;
 }
 LTSH_FUNCTION_EXPORT(aligen,"show aligen test");
+
+
+unsigned int layout(char argc,char ** argv)
+{
+    #pragma section = ".intvec"
+    #pragma section = ".text"
+    #pragma section = ".rodata"
+    #pragma section = ".rodata.name"
+    #pragma section = "ASM_TEST_CODE"
+    #pragma section = "FSymTab"
+
+    /* .intvec */
+    printf("[.intvec]\t [0x%x~0x%x:0x%x]\r\n",__section_begin(".intvec"),__section_end(".intvec"),__section_size(".intvec"));
+    /* .text */
+    printf("[.text]\t\t [0x%x~0x%x:0x%x]\r\n",__section_begin(".text"),__section_end(".text"),__section_size(".text"));
+    /* .rodata */
+    printf("[.rodata]\t [0x%x~0x%x:0x%x]\r\n",__section_begin(".rodata"),__section_end(".rodata"),__section_size(".rodata"));
+    /* .rodata.name */
+    printf("[.rodata.name]\t [0x%x~0x%x:0x%x]\r\n",__section_begin(".rodata.name"),__section_end(".rodata.name"),__section_size(".rodata.name"));
+    /* ASM_TEST_CODE */
+    printf("[ASM_TEST_CODE]\t [0x%x~0x%x:0x%x]\r\n",__section_begin("ASM_TEST_CODE"),__section_end("ASM_TEST_CODE"),__section_size("ASM_TEST_CODE"));
+    /* FSymTab */
+    printf("[FSymTab]\t [0x%x~0x%x:0x%x]\r\n",__section_begin("FSymTab"),__section_end("FSymTab"),__section_size("FSymTab"));
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(layout,"layout section infomation");
