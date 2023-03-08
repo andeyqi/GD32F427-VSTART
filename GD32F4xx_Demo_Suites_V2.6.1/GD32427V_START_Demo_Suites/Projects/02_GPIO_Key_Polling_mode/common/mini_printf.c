@@ -1,25 +1,13 @@
-/********************************************************
- *  Copyright(c) 2018   Semidrive       *
- *******************************************************/
-
 /**
  * @file    min_printf.c
  * @brief   a light-weight version of printf
  */
 
 #include <stdarg.h>
-#include <soc.h>
-#include <Mcu.h>
-#include "mbox.h"
-
-#if defined(CFG_AOS)
-#include "autosar_task.h"
-extern void TaskSuspendAll( void );
-extern BaseType_t xTaskResumeAll( void );
-#endif
+#include <stdio.h>
 
 /* Implemented by SOC */
-extern void send_char(uint8);
+extern void send_char(unsigned char ch);
 
 static const char assic[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                              'a', 'b', 'c', 'd', 'e', 'f'
@@ -38,16 +26,6 @@ static const unsigned int dec_base[] = {
     1000000000UL,
 };
 
-
-static const char* core_str[]={"SF:  ","SX0: ","SX1: ", "SP0: ","SP1: "};
-static void printf_core(void)
-{
-    const char *who = core_str[Mcu_GetCoreID()];
-    while (*who != '\0') {
-        send_char(*who);
-        who++;
-    }
-}
 /*
  * Format tag prototype is "%[flags][width][.precision][length]specifier"
  *      flags: -, +, space, #, O
@@ -58,27 +36,17 @@ static void printf_core(void)
 int mini_printf(const char *fmt, ...)
 {
     va_list args;
-    const char *p = NULL_PTR, *str = NULL_PTR,*scan = NULL_PTR;
+    const char *p = NULL, *str = NULL;
     int ival = 0, i = 0;
     unsigned int digit = 0, msb_processed = 0, index = 0, width = 8;
     float fv;
 
     va_start(args, fmt);
 
-#if defined(CFG_AOS)
-    //TaskSuspendAll();
-#endif
-    for (scan = fmt; *scan; scan++) {
-        if (*scan == '\n') {
-            printf_core();
-            break;
-        }
-    }
-
     for (p = fmt; *p; p++) {
         if (*p != '%') {
             if (*p == '\n') {
-                uint8 c = '\r';
+                unsigned char c = '\r';
                 send_char(c);
             }
 
@@ -200,10 +168,6 @@ int mini_printf(const char *fmt, ...)
             break;
         }
     }
-
-#if defined(CFG_AOS)
-    //xTaskResumeAll();
-#endif
     va_end(args);
 
     return 0;

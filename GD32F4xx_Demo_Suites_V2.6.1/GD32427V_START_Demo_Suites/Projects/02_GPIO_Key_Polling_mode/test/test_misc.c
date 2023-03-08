@@ -198,3 +198,16 @@ unsigned int layout(char argc,char ** argv)
     return 1;
 }
 LTSH_FUNCTION_EXPORT(layout,"layout section infomation");
+
+
+extern int mini_printf(const char *fmt, ...);
+
+unsigned int test_mprintf(char argc,char ** argv)
+{
+    mini_printf("mini printf\n");
+    mini_printf("%d %x %08d\n",100,0x100,10);
+    mini_printf("%f %x %08d\n",3.14f,0x100,10);
+    
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(test_mprintf,"test mini printf");
