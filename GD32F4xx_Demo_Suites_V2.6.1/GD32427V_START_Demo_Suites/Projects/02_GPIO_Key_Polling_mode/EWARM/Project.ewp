@@ -224,6 +224,7 @@
                     <name>CCDefines</name>
                     <state>USE_STDPERIPH_DRIVER</state>
                     <state>GD32F427</state>
+                    <state>SOC_SERIES_GD32F4xx</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
@@ -2214,6 +2215,9 @@
     </group>
     <group>
         <name>driver</name>
+        <file>
+            <name>$PROJ_DIR$\..\driver\drv_gpio.c</name>
+        </file>
         <file>
             <name>$PROJ_DIR$\..\driver\fmc_operation.c</name>
         </file>

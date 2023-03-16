@@ -41,6 +41,7 @@ OF SUCH DAMAGE.
 #include "task.h"
 #include "utilities.h"
 #include "uart.h"
+#include "drv_gpio.h"
 
 #define START_TASK_PRIO        1
 #define START_STK_SIZE         128
@@ -59,10 +60,13 @@ TaskHandle_t ShellTask_Handler;
 
 void start_task(void *pvParameters)
 {
+    gd32_pin_mode(38,PIN_MODE_OUTPUT);
     while(1)
     {
-        //printf("I am task2\r\n" );
-        vTaskDelay(2);
+        gd32_pin_write(38,1);
+        vTaskDelay(500);
+        gd32_pin_write(38,0);
+        vTaskDelay(500);
     }
 
 }
@@ -70,10 +74,19 @@ void start_task(void *pvParameters)
 
 void start_task1(void *pvParameters)
 {
+    gd32_pin_mode(0,PIN_MODE_INPUT);
+    int value_old = 0,value_new = 0;
+
+    value_old = gd32_pin_read(0);
     while(1)
     {
-        //printf("I am task1\r\n" );
-        vTaskDelay(1);
+        value_new = gd32_pin_read(0);
+        if(value_old != value_new)
+        {
+            printf("key %d \r\n",value_new);
+            value_old = value_new;
+        }
+        vTaskDelay(50);
     }
 }
 
