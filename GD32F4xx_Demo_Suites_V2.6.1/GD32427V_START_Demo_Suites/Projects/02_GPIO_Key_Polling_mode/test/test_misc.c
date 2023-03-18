@@ -207,7 +207,59 @@ unsigned int test_mprintf(char argc,char ** argv)
     mini_printf("mini printf\n");
     mini_printf("%d %x %08d\n",100,0x100,10);
     mini_printf("%f %x %08d\n",3.14f,0x100,10);
-    
+
     return 1;
 }
 LTSH_FUNCTION_EXPORT(test_mprintf,"test mini printf");
+
+unsigned int mul(char argc,char ** argv)
+{
+    int a,b;
+
+    a = atoi(argv[1]);
+    b = atoi(argv[2]);
+
+    printf("%s * %s = %d \r\n",argv[1],argv[2],a*b);
+
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(mul,"mul a& b");
+
+unsigned int mydiv(char argc,char ** argv)
+{
+    float a,b;
+
+    a = (float)atoi(argv[1]);
+    b = (float)atoi(argv[2]);
+
+    printf("%s / %s = %f \r\n",argv[1],argv[2],a/b);
+
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(mydiv,"mul a& b");
+
+unsigned int add(char argc,char ** argv)
+{
+    int a,b;
+
+    a = atoi(argv[1]);
+    b = atoi(argv[2]);
+
+    printf("%s + %s = %d \r\n",argv[1],argv[2],a+b);
+
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(add,"mul a& b");
+
+unsigned int sub(char argc,char ** argv)
+{
+    int a,b;
+
+    a = atoi(argv[1]);
+    b = atoi(argv[2]);
+
+    printf("%s - %s = %d \r\n",argv[1],argv[2],a-b);
+
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(sub,"mul a& b");
