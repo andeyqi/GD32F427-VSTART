@@ -5,14 +5,19 @@
 #include "perf_counter.h"
 
 //#define FAST_CRC32
-#define SLOW_CRC32
+#define HARD_CRC32
+//#define SLOW_CRC32
 
 #define CRC_INITIALVALUE 0xFFFFFFFF
 
 extern unsigned long __checksum;
-
+#if defined (SLOW_CRC32) || defined (FAST_CRC32)
 extern unsigned long __ICFEDIT_region_ROM_start__;
 extern unsigned long __ICFEDIT_region_ROM_end_CRC__;
+#elif defined (HARD_CRC32)
+extern unsigned int __ICFEDIT_region_ROM_start__[];
+extern unsigned int __ICFEDIT_region_ROM_end_CRC__[];
+#endif
 
 #ifdef SLOW_CRC32
 static const unsigned long zero=0;
@@ -22,22 +27,24 @@ unsigned int crc(char argc,char ** argv)
 {
     unsigned long sum=0;
  #ifdef FAST_CRC32
-     sum = set_crc32_init_value (CRC_INITIALVALUE);
-     sum = fast_crc32(sum, (unsigned char*)&__ICFEDIT_region_ROM_start__,
+     sum = fast_crc32(CRC_INITIALVALUE, (unsigned char*)&__ICFEDIT_region_ROM_start__,
                       (unsigned long)&__ICFEDIT_region_ROM_end_CRC__ - (unsigned long)&__ICFEDIT_region_ROM_start__ + 1);
 #elif defined SLOW_CRC32
      sum = slow_crc32(CRC_INITIALVALUE, (unsigned char*)&__ICFEDIT_region_ROM_start__,
                       (unsigned long)&__ICFEDIT_region_ROM_end_CRC__  - (unsigned long)&__ICFEDIT_region_ROM_start__ + 1);
-     sum = slow_crc32(sum, (unsigned char *)&zero, 4);
+#elif defined HARD_CRC32
+     crc_data_register_reset();
+     sum = crc_block_data_calculate3(__ICFEDIT_region_ROM_start__,
+     __ICFEDIT_region_ROM_end_CRC__ - __ICFEDIT_region_ROM_start__ + 1);
 #endif
      if(sum!=__checksum)
      {
           printf("Checksum failed: 0x%04lX (calculated) "
-                 "vs 0x%04lX (from linker)\n", sum, __checksum);
+                 "vs 0x%04lX (from linker)\r\n", sum, __checksum);
      }
      else
      {
-          printf("* Checksum 0x%04lX is correct! *\n", __checksum);
+          printf("* Checksum 0x%04lX is correct! *\r\n", __checksum);
      }
     return 1;
 }

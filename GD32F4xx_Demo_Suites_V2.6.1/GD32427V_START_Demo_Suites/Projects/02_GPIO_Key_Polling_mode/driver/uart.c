@@ -24,7 +24,7 @@ void uart_init(void)
     /* configure USART0 RX as alternate function push-pull */
     gpio_mode_set(GPIOB, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_7);
     gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, GPIO_PIN_7);
-    
+
     /* configure the USART0 TX pin and USART0 RX pin */
     gpio_af_set(GPIOB, GPIO_AF_7, GPIO_PIN_6);
     gpio_af_set(GPIOB, GPIO_AF_7, GPIO_PIN_7);
@@ -77,6 +77,11 @@ int fputc(int ch, FILE *f)
     return ch;
 }
 
+void send_char(unsigned char ch )
+{
+    fputc(ch,NULL);
+}
+
 size_t __write(int handle, const unsigned char *buf, size_t size)
 {
     size_t i = 0;
@@ -85,6 +90,6 @@ size_t __write(int handle, const unsigned char *buf, size_t size)
         usart_data_transmit(USART0, (uint8_t)buf[i]);
         while(RESET == usart_flag_get(USART0, USART_FLAG_TBE));
     }
-    
+
     return i;
 }

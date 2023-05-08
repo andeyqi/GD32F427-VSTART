@@ -3,6 +3,8 @@
 #include "littleshell.h"
 #include "utilities.h"
 #include "debug.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
 unsigned int dumpreg(char argc,char ** argv)
 {
@@ -111,7 +113,14 @@ LTSH_FUNCTION_EXPORT(section,"test args");
 
 unsigned int status(char argc,char ** argv)
 {
+    uint32_t bootmode;
+    bootmode = REG32(SYSCFG_BASE);
+
     printf("tick %d\r\n",xTaskGetTickCount());
+    printf("boot mode %s\r\n",(GET_BITS(bootmode,0,2) == 0) ? "flash" :
+                              ((GET_BITS(bootmode,0,2) == 1) ? "system" :
+                              ((GET_BITS(bootmode,0,2) == 2) ? "sram1" :
+                              ((GET_BITS(bootmode,0,2) == 3) ? "sram2" : "Unknow"))));
 
     return 1;
 }
@@ -154,3 +163,103 @@ unsigned int aligen(char argc,char ** argv)
     return 1;
 }
 LTSH_FUNCTION_EXPORT(aligen,"show aligen test");
+
+
+unsigned int layout(char argc,char ** argv)
+{
+    #pragma section = ".intvec"
+    #pragma section = ".text"
+    #pragma section = ".rodata"
+    #pragma section = ".rodata.name"
+    #pragma section = "ASM_TEST_CODE"
+    #pragma section = "FSymTab"
+    #pragma section = "CODE"
+    #pragma section = ".iar.init_table"
+    #pragma section = ".data_init"
+
+    /* .intvec */
+    printf("[.intvec]\t\t [0x%x~0x%x:0x%x]\r\n",__section_begin(".intvec"),__section_end(".intvec"),__section_size(".intvec"));
+    /* .text */
+    printf("[.text]\t\t\t [0x%x~0x%x:0x%x]\r\n",__section_begin(".text"),__section_end(".text"),__section_size(".text"));
+    /* .rodata */
+    printf("[.rodata]\t\t [0x%x~0x%x:0x%x]\r\n",__section_begin(".rodata"),__section_end(".rodata"),__section_size(".rodata"));
+    /* .rodata.name */
+    printf("[.rodata.name]\t\t [0x%x~0x%x:0x%x]\r\n",__section_begin(".rodata.name"),__section_end(".rodata.name"),__section_size(".rodata.name"));
+    /* ASM_TEST_CODE */
+    printf("[ASM_TEST_CODE]\t\t [0x%x~0x%x:0x%x]\r\n",__section_begin("ASM_TEST_CODE"),__section_end("ASM_TEST_CODE"),__section_size("ASM_TEST_CODE"));
+    /* FSymTab */
+    printf("[FSymTab]\t\t [0x%x~0x%x:0x%x]\r\n",__section_begin("FSymTab"),__section_end("FSymTab"),__section_size("FSymTab"));
+    /* CODE */
+    printf("[CODE]\t\t\t [0x%x~0x%x:0x%x]\r\n",__section_begin("CODE"),__section_end("CODE"),__section_size("CODE"));
+    /* .iar.init_table */
+    printf("[.iar.init_table]\t [0x%x~0x%x:0x%x]\r\n",__section_begin(".iar.init_table"),__section_end(".iar.init_table"),__section_size(".iar.init_table"));
+    /* .data_init */
+    printf("[.data_init]\t\t [0x%x~0x%x:0x%x]\r\n",__section_begin(".data_init"),__section_end(".data_init"),__section_size(".data_init"));
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(layout,"layout section infomation");
+
+
+extern int mini_printf(const char *fmt, ...);
+
+unsigned int test_mprintf(char argc,char ** argv)
+{
+    mini_printf("mini printf\n");
+    mini_printf("%d %x %08d\n",100,0x100,10);
+    mini_printf("%f %x %08d\n",3.14f,0x100,10);
+
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(test_mprintf,"test mini printf");
+
+unsigned int mul(char argc,char ** argv)
+{
+    int a,b;
+
+    a = atoi(argv[1]);
+    b = atoi(argv[2]);
+
+    printf("%s * %s = %d \r\n",argv[1],argv[2],a*b);
+
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(mul,"mul a& b");
+
+unsigned int mydiv(char argc,char ** argv)
+{
+    float a,b;
+
+    a = (float)atoi(argv[1]);
+    b = (float)atoi(argv[2]);
+
+    printf("%s / %s = %f \r\n",argv[1],argv[2],a/b);
+
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(mydiv,"mul a& b");
+
+unsigned int add(char argc,char ** argv)
+{
+    int a,b;
+
+    a = atoi(argv[1]);
+    b = atoi(argv[2]);
+
+    printf("%s + %s = %d \r\n",argv[1],argv[2],a+b);
+
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(add,"mul a& b");
+
+unsigned int sub(char argc,char ** argv)
+{
+    int a,b;
+
+    a = atoi(argv[1]);
+    b = atoi(argv[2]);
+
+    printf("%s - %s = %d \r\n",argv[1],argv[2],a-b);
+
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(sub,"mul a& b");

@@ -161,9 +161,10 @@ unsigned int perf(char argc,char ** argv)
                 for(j = len;j < configMAX_TASK_NAME_LEN-1;j++)
                     task_name[j] = ' ';
             }
-            printf("%s\t%010d\t%d\t%010d\t%010d\t%010lld\t%.2f\r\n",\
-                   task_name,pcycle->nUsedRecent,pcycle->wActiveCount,\
-                   pcycle->nUsedMax,pcycle->nUsedMin,pcycle->lUsedTotal/pcycle->wActiveCount,((float)(pcycle->lUsedTotal))/((float)count)*((float)100.0));
+            printf("%s\t%010d\t%d\t%010d\t%010d\t%010lld\t%.2f\r\n",
+                   task_name,pcycle->nUsedRecent,pcycle->wActiveCount,
+                   pcycle->nUsedMax,pcycle->nUsedMin,pcycle->lUsedTotal/pcycle->wActiveCount,
+                   ((double)(pcycle->lUsedTotal))/((double)count)*((double)100.0f));
         }
     }
     //logctrl_instance()->is_sync = 0;
