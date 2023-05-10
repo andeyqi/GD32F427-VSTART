@@ -382,7 +382,7 @@ unsigned int flashtest(char argc,char ** argv)
     fmc_read_8bit_data(0x08080000,10,rdata);
 
     //printf("[%x][%x][%x][%x][%x][%x][%x][%x][%x][%x]\r\n",rdata[0],rdata[1],rdata[2],rdata[3],rdata[4],rdata[5],rdata[6],rdata[7],rdata[8],rdata[9]);
-    trace_byte_stream((uint8_t *)rdata,10);
+    trace_byte_stream((uint8_t *)rdata,10,0x00);
 
     return 1;
 }

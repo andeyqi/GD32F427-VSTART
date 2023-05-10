@@ -14,7 +14,7 @@ unsigned int dumpreg(char argc,char ** argv)
     addr = myatohexuint(argv[1]);
     len = atoi(argv[2]);
 
-    trace_word_stream(((uint32_t *)(uint32_t)(addr)),len);
+    trace_word_stream(((uint32_t *)(uint32_t)(addr)),len,0x00);
 
     return 1;
 }
@@ -232,7 +232,7 @@ unsigned int mydiv(char argc,char ** argv)
     a = (float)atoi(argv[1]);
     b = (float)atoi(argv[2]);
 
-    printf("%s / %s = %f \r\n",argv[1],argv[2],a/b);
+    printf("%s / %s = %f \r\n",argv[1],argv[2],(double)(a/b));
 
     return 1;
 }

@@ -130,7 +130,7 @@ unsigned int stack(char argc,char ** argv)
             goto out;
         printf("task name [%s] stack deep 0x%x\r\n",stack_all[index].task_name,stack_all[index].stack_deep);
         //logctrl_instance()->is_sync = 1;
-        trace_byte_stream((uint8_t *)stack_all[index].stack_tail,stack_all[index].stack_deep);
+        trace_byte_stream((uint8_t *)stack_all[index].stack_tail,stack_all[index].stack_deep,0x00);
         //logctrl_instance()->is_sync = 0;
     }
 out:

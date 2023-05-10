@@ -2192,6 +2192,9 @@
             <name>$PROJ_DIR$\..\common\debug.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\common\hexdump.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\common\mini_printf.c</name>
         </file>
         <file>
