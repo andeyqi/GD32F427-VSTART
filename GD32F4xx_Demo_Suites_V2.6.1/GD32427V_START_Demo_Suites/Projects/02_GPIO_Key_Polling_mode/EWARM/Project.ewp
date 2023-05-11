@@ -2378,6 +2378,9 @@
     <group>
         <name>test</name>
         <file>
+            <name>$PROJ_DIR$\..\test\test_cmsis.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\test\test_crc.c</name>
         </file>
         <file>
