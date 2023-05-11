@@ -345,6 +345,16 @@ typedef union
   uint32_t w;                            /*!< Type      used for word access                  */
 } CONTROL_Type;
 
+/* CONTROL Register Definitions */
+#define CONTROL_FPCA_Pos                    2U                                            /*!< CONTROL: FPCA Position */
+#define CONTROL_FPCA_Msk                   (1UL << CONTROL_FPCA_Pos)                      /*!< CONTROL: FPCA Mask */
+
+#define CONTROL_SPSEL_Pos                   1U                                            /*!< CONTROL: SPSEL Position */
+#define CONTROL_SPSEL_Msk                  (1UL << CONTROL_SPSEL_Pos)                     /*!< CONTROL: SPSEL Mask */
+
+#define CONTROL_nPRIV_Pos                   0U                                            /*!< CONTROL: nPRIV Position */
+#define CONTROL_nPRIV_Msk                  (1UL /*<< CONTROL_nPRIV_Pos*/)                 /*!< CONTROL: nPRIV Mask */
+
 /*@} end of group CMSIS_CORE */
 
 
@@ -1384,6 +1394,24 @@ typedef struct
 #define CoreDebug_DEMCR_VC_CORERESET_Msk   (1UL << CoreDebug_DEMCR_VC_CORERESET_Pos)      /*!< CoreDebug DEMCR: VC_CORERESET Mask */
 
 /*@} end of group CMSIS_CoreDebug */
+
+/**
+  \brief   Mask and shift a bit field value for use in a register bit range.
+  \param[in] field  Name of the register bit field.
+  \param[in] value  Value of the bit field. This parameter is interpreted as an uint32_t type.
+  \return           Masked and shifted value.
+*/
+#define _VAL2FLD(field, value)    (((uint32_t)(value) << field ## _Pos) & field ## _Msk)
+
+/**
+  \brief     Mask and shift a register value to extract a bit filed value.
+  \param[in] field  Name of the register bit field.
+  \param[in] value  Value of register. This parameter is interpreted as an uint32_t type.
+  \return           Masked and shifted bit field value.
+*/
+#define _FLD2VAL(field, value)    (((uint32_t)(value) & field ## _Msk) >> field ## _Pos)
+
+/*@} end of group CMSIS_core_bitfield */
 
 
 /** \ingroup    CMSIS_core_register
