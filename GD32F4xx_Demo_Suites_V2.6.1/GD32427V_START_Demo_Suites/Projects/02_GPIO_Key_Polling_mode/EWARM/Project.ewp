@@ -2225,6 +2225,9 @@
             <name>$PROJ_DIR$\..\driver\fmc_operation.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\driver\gd32f4xx_fmc.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\driver\mpu.c</name>
         </file>
         <file>
