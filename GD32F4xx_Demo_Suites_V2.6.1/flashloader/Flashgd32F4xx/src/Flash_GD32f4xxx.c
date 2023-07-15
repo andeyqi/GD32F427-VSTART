@@ -3,6 +3,9 @@
 #include <stdint.h>
 #include <string.h>
 
+#define USE_ARGC_ARGV 1
+#define DEBUG_MESS 1
+
 #define REG32(addr)           (*(volatile uint32_t *)(uint32_t)(addr))
 #define BIT(x)                       ((uint32_t)((uint32_t)0x01U<<(x)))
 #define BITS(start, end)             ((0xFFFFFFFFUL << (start)) & (0xFFFFFFFFUL >> (31U - (uint32_t)(end))))
@@ -134,12 +137,22 @@ typedef enum
 #define USART_BAUD_INTDIV             BITS(4,15)   /*!< integer part of baud-rate divider */
 
 #ifdef DEBUG_MESS
-int putchar(int c)
+void uartsend(char c)
 {
   USART_DATA(USART0) = c;
   while(!(USART_STAT0(USART0) & (0X01 << 6)));
+}
 
-  return c;
+void uartsendstring(char * s)
+{
+  uint32_t len = strlen(s);
+  uint32_t i = 0;
+  for(i = 0; i < len;i++)
+  {
+    USART_DATA(USART0) = s[i];
+    while(!(USART_STAT0(USART0) & (0X01 << 6)));
+  }
+
 }
 #endif // DEBUG_MESS
 
@@ -230,8 +243,6 @@ void execUserFlashInit(void)
     FMC_STAT = 0x000000F0;
 }
 
-#define USE_ARGC_ARGV 1
-#define DEBUG_MESS 1
 
 #if USE_ARGC_ARGV
 uint32_t FlashInit(void *base_of_flash, uint32_t image_size,
@@ -319,9 +330,7 @@ uint32_t FlashInit(void *base_of_flash, uint32_t image_size,
     USART_CTL0(USART0) |= (0x01u << 13);
 
 
-    //putchar('h');
-    USART_DATA(USART0) = 'h';
-    while(!(USART_STAT0(USART0) & (0X01 << 6)));
+    uartsendstring("\r\nuart init ok.\r\n");
 #endif
 
     FMC_WS = 0x00000000;
@@ -340,6 +349,8 @@ uint32_t FlashWrite(void *block_start,
 {
     uint8_t * dst = (uint8_t *)((unsigned char *)block_start + offset_into_block);
     uint8_t * src = (uint8_t *)buffer;
+
+    uartsendstring("flash write.\r\n");
 
     FMC_CTL |= 0x01u;
     FMC_STAT = 0x1d2;
@@ -421,6 +432,7 @@ uint32_t FlashErase(void *block_start,
     uint32_t offset = (uint32_t)block_start;
     uint32_t sector_num = 0;
 
+    uartsendstring("flash erase.\r\n");
 
     if(offset >= 0x08000000 && offset <= 0x08003fff)
     {
