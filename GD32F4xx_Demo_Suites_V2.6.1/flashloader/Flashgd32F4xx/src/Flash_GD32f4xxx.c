@@ -10,7 +10,8 @@
 
 #define FMC_BASE              ((uint32_t)0x40020000U + 0x00003C00U)
 #define RCU_BASE              ((uint32_t)0x40020000U + 0x00003800U)
-#define GPIO_BASE             ((uint32_t)0x40020000U + 0x00000000U)  /*!< GPIO base address                */
+#define GPIO_BASE             ((uint32_t)0x40020000U + 0x00000000U)
+#define USART0                ((uint32_t)0x40000000U + 0x00004400U+0x0000CC00U)
 
 #define FMC                        FMC_BASE
 #define RCU                        RCU_BASE
@@ -90,6 +91,19 @@
 #define GPIO_TG(gpiox)             REG32((gpiox) + 0x2CU)    /*!< GPIO port bit toggle register */
 
 
+/* registers definitions */
+#define USART_STAT0(usartx)           REG32((usartx) + 0x00U)        /*!< USART status register 0 */
+#define USART_DATA(usartx)            REG32((usartx) + 0x04U)        /*!< USART data register */
+#define USART_BAUD(usartx)            REG32((usartx) + 0x08U)        /*!< USART baud rate register */
+#define USART_CTL0(usartx)            REG32((usartx) + 0x0CU)        /*!< USART control register 0 */
+#define USART_CTL1(usartx)            REG32((usartx) + 0x10U)        /*!< USART control register 1 */
+#define USART_CTL2(usartx)            REG32((usartx) + 0x14U)        /*!< USART control register 2 */
+#define USART_GP(usartx)              REG32((usartx) + 0x18U)        /*!< USART guard time and prescaler register */
+#define USART_CTL3(usartx)            REG32((usartx) + 0x80U)        /*!< USART control register 3 */
+#define USART_RT(usartx)              REG32((usartx) + 0x84U)        /*!< USART receiver timeout register */
+#define USART_STAT1(usartx)           REG32((usartx) + 0x88U)        /*!< USART status register 1 */
+#define USART_CHC(usartx)             REG32((usartx) + 0xC0U)        /*!< USART coherence control register */
+
 static __no_init uint32_t parallelism;
 static __no_init uint8_t blankcheck;
 typedef enum
@@ -114,6 +128,21 @@ typedef enum
 #define RCU_PLLSRC_HXTAL                RCU_PLL_PLLSEL
 #define IRC16M_VALUE  ((uint32_t)16000000)
 #define HXTAL_VALUE   ((uint32_t)25000000)
+
+#define USART_CTL0_OVSMOD             BIT(15)
+#define USART_BAUD_FRADIV             BITS(0,3)    /*!< fraction part of baud-rate divider */
+#define USART_BAUD_INTDIV             BITS(4,15)   /*!< integer part of baud-rate divider */
+
+#ifdef DEBUG_MESS
+int putchar(int c)
+{
+  USART_DATA(USART0) = c;
+  while(!(USART_STAT0(USART0) & (0X01 << 6)));
+
+  return c;
+}
+#endif // DEBUG_MESS
+
 
 uint32_t rcu_clock_freq_get(rcu_clock_freq_enum clock)
 {
@@ -253,6 +282,46 @@ uint32_t FlashInit(void *base_of_flash, uint32_t image_size,
     GPIO_CTL(GPIOB) &= ~(0x03u << (2*6));
     GPIO_CTL(GPIOB) |= (2 << (2*6));
 
+    GPIO_PUD(GPIOB) &= ~(0x03u << (2*6));
+    GPIO_PUD(GPIOB) |= (1u << (2*6));
+    GPIO_OMODE(GPIOB) &= ~(0x01u << 6);
+
+    GPIO_OSPD(GPIOB) &= ~(0x03u << (2*6));
+    GPIO_OSPD(GPIOB) |= (0x01u << (2*6));
+
+    GPIO_AFSEL0(GPIOB) &= ~(0xf << (4*6));
+    GPIO_AFSEL0(GPIOB) |= (0x7 << (4*6));
+
+    /* config uart0 */
+    uint32_t uclk = 0U, intdiv = 0U, fradiv = 0U, udiv = 0U;
+    uclk = rcu_clock_freq_get(CK_APB2);
+
+    if(USART_CTL0(USART0) & USART_CTL0_OVSMOD) {
+        /* when oversampling by 8, configure the value of USART_BAUD */
+        udiv = ((2U * uclk) + 115200 / 2U) / 115200;
+        intdiv = udiv & 0xfff0U;
+        fradiv = (udiv >> 1U) & 0x7U;
+        USART_BAUD(USART0) = ((USART_BAUD_FRADIV | USART_BAUD_INTDIV) & (intdiv | fradiv));
+    } else {
+        /* when oversampling by 16, configure the value of USART_BAUD */
+        udiv = (uclk + 115200 / 2U) / 115200;
+        intdiv = udiv & 0xfff0U;
+        fradiv = udiv & 0xfU;
+        USART_BAUD(USART0) = ((USART_BAUD_FRADIV | USART_BAUD_INTDIV) & (intdiv | fradiv));
+    }
+
+    USART_CTL0(USART0) &= ~(0x01u << 10);
+    USART_CTL0(USART0) &= ~(0x01u << 12);
+
+    USART_CTL1(USART0) &= ~(0x03u << 12);
+
+    USART_CTL0(USART0) |= (0x01u << 3);
+    USART_CTL0(USART0) |= (0x01u << 13);
+
+
+    //putchar('h');
+    USART_DATA(USART0) = 'h';
+    while(!(USART_STAT0(USART0) & (0X01 << 6)));
 #endif
 
     FMC_WS = 0x00000000;
