@@ -2153,4 +2153,7 @@
     <file>
         <name>$PROJ_DIR$\src\Flash_GD32f4xxx.c</name>
     </file>
+    <file>
+        <name>$PROJ_DIR$\src\mini_printf.c</name>
+    </file>
 </project>

@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <string.h>
 
+int mini_printf(const char *fmt, ...);
+
 #define USE_ARGC_ARGV 1
 #define DEBUG_MESS 1
 
@@ -137,7 +139,7 @@ typedef enum
 #define USART_BAUD_INTDIV             BITS(4,15)   /*!< integer part of baud-rate divider */
 
 #ifdef DEBUG_MESS
-void uartsend(char c)
+void send_char(char c)
 {
   USART_DATA(USART0) = c;
   while(!(USART_STAT0(USART0) & (0X01 << 6)));
@@ -330,7 +332,7 @@ uint32_t FlashInit(void *base_of_flash, uint32_t image_size,
     USART_CTL0(USART0) |= (0x01u << 13);
 
 
-    uartsendstring("\r\nuart init ok.\r\n");
+    mini_printf("\r\nuart init ok.\r\n");
 #endif
 
     FMC_WS = 0x00000000;
@@ -350,7 +352,7 @@ uint32_t FlashWrite(void *block_start,
     uint8_t * dst = (uint8_t *)((unsigned char *)block_start + offset_into_block);
     uint8_t * src = (uint8_t *)buffer;
 
-    uartsendstring("flash write.\r\n");
+    mini_printf("flash write dst %p %d %d.\r\n",dst,offset_into_block,count);
 
     FMC_CTL |= 0x01u;
     FMC_STAT = 0x1d2;
@@ -432,7 +434,7 @@ uint32_t FlashErase(void *block_start,
     uint32_t offset = (uint32_t)block_start;
     uint32_t sector_num = 0;
 
-    uartsendstring("flash erase.\r\n");
+    mini_printf("flash erase %x.\r\n",offset);
 
     if(offset >= 0x08000000 && offset <= 0x08003fff)
     {
