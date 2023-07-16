@@ -333,6 +333,16 @@ uint32_t FlashInit(void *base_of_flash, uint32_t image_size,
 
 
     mini_printf("\r\nuart init ok.\r\n");
+    mini_printf("CLK info\r\n");
+    mini_printf("sys rate %d\r\n",rcu_clock_freq_get(CK_SYS));
+    mini_printf("AHB rate %d\r\n",rcu_clock_freq_get(CK_AHB));
+    mini_printf("APB1 rate %d\r\n",rcu_clock_freq_get(CK_APB1));
+    mini_printf("APB2 rate %d\r\n",rcu_clock_freq_get(CK_APB2));
+
+    if(argc > 0)
+        mini_printf("Argc %d\r\n",argc);
+    for(temp = 0;temp < argc;temp++)
+        mini_printf("Argv[%d] = %s\r\n",temp,argv[temp]);
 #endif
 
     FMC_WS = 0x00000000;
