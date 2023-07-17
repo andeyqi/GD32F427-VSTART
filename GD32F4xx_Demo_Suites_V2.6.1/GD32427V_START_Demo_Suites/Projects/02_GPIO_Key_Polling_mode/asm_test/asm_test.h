@@ -14,4 +14,5 @@ void asm_test_nop(void);
 void asm_test_nzcv(void);
 void asm_test_cmn(void);
 uint32_t asm_rev(uint32_t rev);
+void asm_test_stm(uint32_t * p);
 

@@ -15,6 +15,7 @@
     PUBLIC asm_test_nzcv
     PUBLIC asm_test_cmn
     PUBLIC asm_rev
+    PUBLIC asm_test_stm
 
     EXTERN p_uint64
 
@@ -206,6 +207,16 @@ asm_test_cmn:
 asm_rev:
     mov r1,r0
     rev r0,r1
+    bx lr
+
+
+asm_test_stm:
+    ldmia   r0,  {r1-r3}
+    mov     r1, #1
+    mov     r2, #2
+    mov     r3, #3
+    stmia   r0,  {r1-r3}
+
     bx lr
 
 	END
