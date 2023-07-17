@@ -16,6 +16,7 @@ unsigned int asmtest(char argc,char ** argv)
     char dst[20] = {'\0'};
     uint32_t p1,p2,p3,p4;
     int32_t  n1,n2;
+    uint32_t test_data[] = {0x11111111,0x22222222,0x33333333,0x44444444};
 
     if(argc == 1 )
         return 0;
@@ -101,6 +102,9 @@ unsigned int asmtest(char argc,char ** argv)
         {
             printf("%d\r\n",n1-n2);
         }
+        break;
+    case 15:
+        asm_test_stm(test_data);
         break;
     default:
         break;

@@ -15,6 +15,8 @@
     PUBLIC asm_test_nzcv
     PUBLIC asm_test_cmn
     PUBLIC asm_rev
+    PUBLIC asm_test_stm
+    PUBLIC xIsPrivileged
 
     EXTERN p_uint64
 
@@ -104,7 +106,7 @@ asm_test_ldrd:
 
 asm_test_sub:
     push {r4,r5}
-    ldr	r0, =p_uint64
+    ldr r0, =p_uint64
     ldr r2,[r0],#0x04
     ldr r3,[r0]
     ldr r4,=0x01
@@ -208,5 +210,24 @@ asm_rev:
     rev r0,r1
     bx lr
 
-	END
+
+asm_test_stm:
+    ldmia   r0,  {r1-r3}
+    mov     r1, #1
+    mov     r2, #2
+    mov     r3, #3
+    stmia   r0,  {r1-r3}
+
+    bx lr
+
+
+xIsPrivileged:
+    mrs r0, control     /* r0 = CONTROL. */
+    tst r0, #1          /* Perform r0 & 1 (bitwise AND) and update the conditions flag. */
+    itt ne
+    movne r0, #0        /* CONTROL[0]!=0. Return false to indicate that the processor is not privileged. */
+    movne r0, #1        /* CONTROL[0]==0. Return true to indicate that the processor is privileged. */
+    bx lr               /* Return. */
+
+    END
 
