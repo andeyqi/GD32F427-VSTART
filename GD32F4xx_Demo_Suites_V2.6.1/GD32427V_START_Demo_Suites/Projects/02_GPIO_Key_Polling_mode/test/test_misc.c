@@ -263,3 +263,24 @@ unsigned int sub(char argc,char ** argv)
     return 1;
 }
 LTSH_FUNCTION_EXPORT(sub,"mul a& b");
+
+
+unsigned int iccarm(char argc,char ** argv)
+{
+    printf("__ARM_ARCH = %d\r\n",__ARM_ARCH);
+    printf("__ARM_ARCH_PROFILE = %c\r\n",__ARM_ARCH_PROFILE);
+    printf("__ARM_FP = %d\r\n",__ARM_FP);
+    printf("__ARM_ACLE = %d\r\n",__ARM_ACLE );
+    printf("__ARM_ARCH_ISA_THUMB = %d\r\n",__ARM_ARCH_ISA_THUMB);
+#if defined (__ARM_FEATURE_UNALIGNED)
+    printf("__ARM_FEATURE_UNALIGNED is surport\r\n");
+#else
+    printf("__ARM_FEATURE_UNALIGNED is not surport\r\n");
+#endif
+
+#if defined (__ICCARM__)
+    printf("__VER__ == %d.\r\n",__VER__);
+#endif
+    return 0;
+}
+LTSH_FUNCTION_EXPORT(iccarm,"iar c complier");
