@@ -284,3 +284,25 @@ unsigned int iccarm(char argc,char ** argv)
     return 0;
 }
 LTSH_FUNCTION_EXPORT(iccarm,"iar c complier");
+
+
+#include "byte_queue.h"
+
+unsigned int byte_queue_test(char argc,char ** argv)
+{
+    uint8_t cmd = atoi(argv[1]);
+    static byte_queue_t * queue;
+    static uint8_t buff[20];
+
+    switch(cmd)
+    {
+    case 0:
+        queue = __new_class(byte_queue,buff,20);
+        break;
+    case 1:
+        BYTE_QUEUE.Depose(queue);
+        break;
+    }
+    return 0;
+}
+LTSH_FUNCTION_EXPORT(byte_queue_test,"byte_queue test");
