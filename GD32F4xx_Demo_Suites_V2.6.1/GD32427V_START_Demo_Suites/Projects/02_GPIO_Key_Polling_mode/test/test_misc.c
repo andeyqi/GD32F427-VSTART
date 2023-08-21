@@ -306,3 +306,52 @@ unsigned int byte_queue_test(char argc,char ** argv)
     return 0;
 }
 LTSH_FUNCTION_EXPORT(byte_queue_test,"byte_queue test");
+
+
+#include "mfunc.h"
+
+typedef struct {
+    char * name;
+    uint8_t old;
+} student_t;
+
+
+
+unsigned int macro_test(char argc,char ** argv)
+{
+    student_t skl [10] =
+    {
+        {"lei",10},
+        {"lucy",20},
+        {"han",15},
+        {"andy",35},
+        {"terry",20},
+        {"lei",10},
+        {"lucy",20},
+        {"han",15},
+        {"andy",35},
+        {"terry",20}
+    };
+    uint8_t cmd = atoi(argv[1]);
+
+    switch(cmd)
+    {
+    case 0:
+        foreach(student_t,skl,item)
+        {
+            printf("name %s old %d \r\n",item->name,item->old);
+        }
+        break;
+    case 1:
+        using(int i = 100,printf("entry \r\n"),printf("out \r\n"))
+        {
+            printf("i = %d\r\n",i);
+            i++;
+            printf("i = %d\r\n",i);
+        }
+        break;
+    }
+    return 0;
+}
+
+LTSH_FUNCTION_EXPORT(macro_test,"macro test");
