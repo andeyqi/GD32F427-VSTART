@@ -2161,6 +2161,9 @@
     <group>
         <name>Application</name>
         <file>
+            <name>$PROJ_DIR$\..\common\app_fatfs.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\gd32f4xx_it.c</name>
         </file>
         <file>
