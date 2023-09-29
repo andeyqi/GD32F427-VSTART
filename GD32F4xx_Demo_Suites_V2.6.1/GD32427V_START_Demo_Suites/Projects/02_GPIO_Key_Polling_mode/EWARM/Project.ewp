@@ -359,6 +359,7 @@
                     <state>$PROJ_DIR$\..\common</state>
                     <state>$PROJ_DIR$\..\driver</state>
                     <state>$PROJ_DIR$\..\plooc</state>
+                    <state>$PROJ_DIR$\..\FatFs\src</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -2240,6 +2241,33 @@
         <file>
             <name>$PROJ_DIR$\..\driver\uart.c</name>
         </file>
+    </group>
+    <group>
+        <name>fatfs</name>
+        <group>
+            <name>core</name>
+            <file>
+                <name>$PROJ_DIR$\..\FatFs\src\diskio.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\FatFs\src\ff.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\FatFs\src\ff_gen_drv.c</name>
+            </file>
+        </group>
+        <group>
+            <name>options</name>
+            <file>
+                <name>$PROJ_DIR$\..\FatFs\src\sram_diskio.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\FatFs\src\option\syscall.c</name>
+            </file>
+            <file>
+                <name>$PROJ_DIR$\..\FatFs\src\option\unicode.c</name>
+            </file>
+        </group>
     </group>
     <group>
         <name>floatlib</name>
