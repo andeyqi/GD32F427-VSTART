@@ -22,6 +22,8 @@
 #include "ff.h"
 #include "ff_gen_drv.h"
 #include "sram_diskio.h" /* defines SRAMDISK_Driver as external */
+#include <stdio.h>
+#include "littleshell.h"
 
 #define APP_OK                     0
 #define APP_ERROR                  -1
@@ -192,4 +194,31 @@ static int32_t FS_FileOperations(void)
   return -1;
 }
 
+
+
+unsigned int fatfs_test(char argc,char ** argv)
+{
+   int32_t ProcessStatus = 0;
+
+  MX_FATFS_Init();
+  
+  while (1)
+  {
+    ProcessStatus = MX_FATFS_Process();
+    /* Call middleware background task */
+    if (ProcessStatus == APP_ERROR)
+    {
+      printf("fatfs error.\r\n");
+    }
+    else if (ProcessStatus == APP_OK)
+    {
+      printf("fatfs sucess.\r\n");
+    }
+
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+  }
+}
+LTSH_FUNCTION_EXPORT(fatfs_test,"fatfs test");
 /* USER CODE END Application */
