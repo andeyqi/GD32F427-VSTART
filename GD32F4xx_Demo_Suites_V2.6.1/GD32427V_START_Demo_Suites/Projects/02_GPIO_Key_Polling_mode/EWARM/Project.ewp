@@ -820,7 +820,7 @@
                 </option>
                 <option>
                     <name>IlinkAdditionalLibs</name>
-                    <state></state>
+                    <state>$PROJ_DIR$\Project.a</state>
                 </option>
                 <option>
                     <name>IlinkOverrideProgramEntryLabel</name>
@@ -2196,6 +2196,9 @@
             <name>$PROJ_DIR$\..\common\debug.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\common\hard_float.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\common\hexdump.c</name>
         </file>
         <file>
@@ -2236,6 +2239,15 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\driver\uart.c</name>
+        </file>
+    </group>
+    <group>
+        <name>floatlib</name>
+        <excluded>
+            <configuration>Debug</configuration>
+        </excluded>
+        <file>
+            <name>$PROJ_DIR$\..\common\soft_float.c</name>
         </file>
     </group>
     <group>

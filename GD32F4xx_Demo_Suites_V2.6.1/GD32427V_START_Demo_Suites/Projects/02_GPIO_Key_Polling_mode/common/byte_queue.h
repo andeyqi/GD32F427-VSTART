@@ -47,7 +47,7 @@ typedef struct mem_t {
 
 //! \name class byte_queue_t
 //! @{
-declare_class(byte_queue_t)
+//declare_class(byte_queue_t)
 
 def_class(byte_queue_t,
 

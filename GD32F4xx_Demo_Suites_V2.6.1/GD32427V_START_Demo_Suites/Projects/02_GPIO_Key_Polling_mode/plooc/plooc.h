@@ -282,7 +282,7 @@ extern "C" {
 
 //! \name interface: u32_property_t
 //! @{
-dcl_interface(u32_property_t)
+//dcl_interface(u32_property_t)
 def_interface(u32_property_t)
     bool (*Set)(uint32_t wValue);
     uint32_t (*Get)(void);
@@ -291,7 +291,7 @@ end_def_interface(u32_property_t)
 
 //! \name interface: u16_property_t
 //! @{
-dcl_interface(u16_property_t)
+//dcl_interface(u16_property_t)
 def_interface(u16_property_t)
     bool (*Set)(uint_fast16_t wValue);
     uint_fast16_t (*Get)(void);
@@ -300,7 +300,7 @@ end_def_interface(u16_property_t)
 
 //! \name interface: u8_property_t
 //! @{
-dcl_interface(u8_property_t)
+//dcl_interface(u8_property_t)
 def_interface(u8_property_t)
     bool (*Set)(uint_fast8_t wValue);
     uint_fast8_t (*Get)(void);
@@ -310,7 +310,7 @@ end_def_interface(u8_property_t)
 
 //! \name interface: i32_property_t
 //! @{
-dcl_interface(i32_property_t)
+//dcl_interface(i32_property_t)
 def_interface(i32_property_t)
     bool (*Set)(int32_t wValue);
     int32_t (*Get)(void);
@@ -319,7 +319,7 @@ end_def_interface(i32_property_t)
 
 //! \name interface: i16_property_t
 //! @{
-dcl_interface(i16_property_t)
+//dcl_interface(i16_property_t)
 def_interface(i16_property_t)
     bool (*Set)(int_fast16_t wValue);
     int_fast16_t (*Get)(void);
@@ -328,7 +328,7 @@ end_def_interface(i16_property_t)
 
 //! \name interface: u8_property_t
 //! @{
-dcl_interface(i8_property_t)
+//dcl_interface(i8_property_t)
 def_interface(i8_property_t)
     bool (*Set)(int_fast8_t wValue);
     int_fast8_t (*Get)(void);
@@ -337,7 +337,7 @@ end_def_interface(i8_property_t)
 
 //! \name interface: bool_property_t
 //! @{
-dcl_interface(bool_property_t)
+//dcl_interface(bool_property_t)
 def_interface(bool_property_t)
     bool (*Set)(bool bValue);
     bool (*Get)(void);
@@ -346,7 +346,7 @@ end_def_interface(bool_property_t)
 
 //! \name interface: bool_property_t
 //! @{
-dcl_interface(en_property_t)
+//dcl_interface(en_property_t)
 def_interface(en_property_t)
     bool (*Enable)(void);
     bool (*Disable)(void);
