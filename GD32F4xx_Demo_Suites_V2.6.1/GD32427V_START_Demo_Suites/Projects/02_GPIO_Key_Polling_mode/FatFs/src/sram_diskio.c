@@ -36,8 +36,8 @@
 /* USER CODE BEGIN PD */
 /* Block Size in Bytes */
 #define BLOCK_SIZE            512
-#define SRAM_DISK_BASE_ADDR 	0x20000000   /* Start: 0x20000000 */
-#define SRAM_DISK_SIZE 		    96U * 1024U  /* End:   0x20017FFF */
+#define SRAM_DISK_BASE_ADDR 	0x2001FFFF   /* Start: 0x20000000 */
+#define SRAM_DISK_SIZE 		    64U * 1024U  /* End:   0x20017FFF */
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
