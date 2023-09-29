@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flash_board>
+    <pass>
+        <loader>$TOOLKIT_DIR$\config\flashloader\GD\myFlashGD32F425xK.flash</loader>
+        <range>CODE 0x8000000 0x807ffff</range>
+        <args>--x32
+--x64
+--skip_erase</args>
+    </pass>
+</flash_board>
