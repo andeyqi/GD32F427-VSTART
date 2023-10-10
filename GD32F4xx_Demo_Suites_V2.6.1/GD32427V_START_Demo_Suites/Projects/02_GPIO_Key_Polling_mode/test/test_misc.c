@@ -355,3 +355,31 @@ unsigned int macro_test(char argc,char ** argv)
 }
 
 LTSH_FUNCTION_EXPORT(macro_test,"macro test");
+
+
+unsigned int cortexm(char argc,char ** argv)
+{
+#define SCB_CPUID_BASE 0xE000ED00U
+#define SCB_CPUID      (*((volatile uint32_t *)(SCB_CPUID_BASE)))
+#define VARIANT_MASK    0xf
+#define VARIANT_SHIFT   20U
+#define REVERSION_MASK  0xf
+#define REVERSION_SHIFT 0U
+#define PART_NO_MASK    0xfff
+#define PART_NO_SHIFT   0x04
+
+    uint32_t cpuid = SCB_CPUID;
+
+    ((cpuid & (PART_NO_MASK<<PART_NO_SHIFT)) >> PART_NO_SHIFT) == 0xC20 ? (printf("Cortex-M0:")) :\
+    (((cpuid & (PART_NO_MASK<<PART_NO_SHIFT)) >> PART_NO_SHIFT) == 0xC60 ? (printf("Cortex-M0+:")):\
+    (((cpuid & (PART_NO_MASK<<PART_NO_SHIFT)) >> PART_NO_SHIFT) == 0xC21 ? (printf("Cortex-M1:")):\
+    (((cpuid & (PART_NO_MASK<<PART_NO_SHIFT)) >> PART_NO_SHIFT) == 0xC23 ? (printf("Cortex-M3:")):\
+    (((cpuid & (PART_NO_MASK<<PART_NO_SHIFT)) >> PART_NO_SHIFT) == 0xC24) ? (printf("Cortex-M4:")):\
+    ((printf("UNKNOWN"))))));
+
+    printf("r%dp%d",((cpuid & (VARIANT_MASK<<VARIANT_SHIFT)) >> VARIANT_SHIFT),\
+                    ((cpuid & (REVERSION_MASK<<REVERSION_SHIFT)) >> REVERSION_SHIFT));
+
+    printf("\r\n");
+}
+LTSH_FUNCTION_EXPORT(cortexm,"show cortexm information");
