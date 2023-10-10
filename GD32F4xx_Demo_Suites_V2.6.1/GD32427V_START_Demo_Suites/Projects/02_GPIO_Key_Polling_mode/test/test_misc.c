@@ -381,5 +381,7 @@ unsigned int cortexm(char argc,char ** argv)
                     ((cpuid & (REVERSION_MASK<<REVERSION_SHIFT)) >> REVERSION_SHIFT));
 
     printf("\r\n");
+
+    return 0;
 }
 LTSH_FUNCTION_EXPORT(cortexm,"show cortexm information");

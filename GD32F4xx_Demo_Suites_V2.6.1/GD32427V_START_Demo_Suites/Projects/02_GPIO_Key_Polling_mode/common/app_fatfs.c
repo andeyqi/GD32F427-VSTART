@@ -355,4 +355,19 @@ unsigned int fatfs(char argc,char ** argv)
 }
 LTSH_FUNCTION_EXPORT(fatfs,"fatfs api test");
 
+
+unsigned int mkdir(char argc,char ** argv)
+{
+  FRESULT res;
+  res = f_mkdir(argv[1]);
+  if (res)
+  {
+    printf("mkdir failed.\r\n");
+  }
+
+   return 0;
+}
+
+LTSH_FUNCTION_EXPORT(mkdir,"make a dir.");
+
 /* USER CODE END Application */
