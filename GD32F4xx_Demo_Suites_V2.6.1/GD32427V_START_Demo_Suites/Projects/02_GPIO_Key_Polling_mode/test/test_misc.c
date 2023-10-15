@@ -385,3 +385,65 @@ unsigned int cortexm(char argc,char ** argv)
     return 0;
 }
 LTSH_FUNCTION_EXPORT(cortexm,"show cortexm information");
+
+typedef volatile struct {
+    uint32_t FP_CTRL;
+    union {
+        void * Address;
+        struct {
+            const uint32_t              : 29;
+            const uint32_t      RMPSPT  : 1;
+            const uint32_t              : 2;
+        };
+    } FP_REMAP;
+
+    union {
+        uintptr_t Address;
+        struct {
+            uint32_t    ENABLE  : 1;
+            uint32_t            : 1;
+            uint32_t    COMP    : 27;
+            uint32_t            : 1;
+            uint32_t    REPLACE : 2;
+        };
+    } FP_COMP[8];
+
+} arm_fpb_reg_t;
+
+
+#define FPB_BASE_ADDRESS        0xE0002000
+#define FPB                     (*(arm_fpb_reg_t *)FPB_BASE_ADDRESS)
+
+
+__attribute__((used))
+const uint8_t s_chCopyRightString[] = {"China"};
+
+__attribute__((aligned(32), used))
+static uint32_t s_wRemapTable[8] = {0};
+
+unsigned int fpb_data(char argc,char ** argv)
+{
+    FPB.FP_CTRL = 0x02;         //!< disable FPB (with KEY)
+    printf("Made in %s\r\n", s_chCopyRightString);
+
+    printf("Hacking...\r\n");
+
+    FPB.FP_COMP[6].Address = (uintptr_t)&s_chCopyRightString;
+    FPB.FP_COMP[6].ENABLE = 1;
+    FPB.FP_COMP[7].Address = (uintptr_t)&s_chCopyRightString + 4;
+    FPB.FP_COMP[7].ENABLE = 1;
+
+    strcpy((char *)&(s_wRemapTable[6]), "Maga ");
+
+    FPB.FP_REMAP.Address = s_wRemapTable;
+
+    FPB.FP_CTRL = 0x03;         //!< enable FPB (with KEY)
+
+    printf("Made in %s\r\n", s_chCopyRightString);
+
+    FPB.FP_COMP[6].ENABLE = 0;
+    FPB.FP_COMP[7].ENABLE = 0;
+
+    return 0;
+}
+LTSH_FUNCTION_EXPORT(fpb_data,"test fpb data feature");
