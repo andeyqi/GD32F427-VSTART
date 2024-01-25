@@ -365,6 +365,7 @@
                     <state>$PROJ_DIR$\..\driver</state>
                     <state>$PROJ_DIR$\..\plooc</state>
                     <state>$PROJ_DIR$\..\FatFs\src</state>
+                    <state>$PROJ_DIR$\..\littlefs</state>
                 </option>
                 <option>
                     <name>CCStdIncCheck</name>
@@ -2281,6 +2282,9 @@
         </file>
         <file>
             <name>$PROJ_DIR$\..\driver\lfs_mflash.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\driver\littlefs_shell.c</name>
         </file>
         <file>
             <name>$PROJ_DIR$\..\driver\mpu.c</name>

@@ -54,7 +54,7 @@ TaskHandle_t Task1Task_Handler;
 void start_task1(void *pvParameters);
 
 #define SHELL_TASK_PRIO        2
-#define SHELL_STK_SIZE         256
+#define SHELL_STK_SIZE         512
 TaskHandle_t ShellTask_Handler;
 
 
