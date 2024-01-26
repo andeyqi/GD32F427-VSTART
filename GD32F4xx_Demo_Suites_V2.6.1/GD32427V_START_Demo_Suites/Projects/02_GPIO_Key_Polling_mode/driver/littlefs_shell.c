@@ -265,7 +265,7 @@ static unsigned int cat(char argc, char **argv)
 {
     int res;
     lfs_file_t file;
-    uint8_t buf[16];
+    uint8_t buf[16+1];
 
     if (!lfs_mounted)
     {
@@ -289,7 +289,10 @@ static unsigned int cat(char argc, char **argv)
             break;
         }
         if(res > 0)
+        {
+            buf[res] = '\0';
             PRINTF("%s",(char *)buf);
+        }
     } while (res);
 
     res = lfs_file_close(&lfs, &file);
@@ -308,3 +311,50 @@ static unsigned int lfsinit(char argc, char **argv)
     return 1;
 }
 LTSH_FUNCTION_EXPORT(lfsinit,"lfs init api");
+
+
+static unsigned int df(char argc, char **argv)
+{
+    printf("used block %d\r\n",lfs_fs_size(&lfs));
+    return 1;
+}
+LTSH_FUNCTION_EXPORT(df,"lfs init api");
+
+ void getcwd(char * buff, int len)
+ {
+     if(lfs_mounted)
+     {  
+        buff[0] = '/';
+        buff[1] = ' ';
+        buff[2] = '\0';
+     }
+ }
+ 
+ 
+ void fs_init(void)
+ {
+    int res;
+    lfs_get_default_config(&cfg);
+    
+    res = lfs_mount(&lfs, &cfg);
+    if (res)
+    {
+        PRINTF("\rError mounting LFS\r\n");
+        
+        res = lfs_format(&lfs, &cfg);
+        if (res)
+        {
+            PRINTF("\rError formatting LFS: %d\r\n", res);
+        }
+        else
+        {
+            res = lfs_mount(&lfs, &cfg);
+            if(res)
+              PRINTF("\rError mounting LFS\r\n");
+        }
+    }
+    else
+    {
+        lfs_mounted = 1;
+    }
+ };

@@ -7,7 +7,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-#define CONSOLE_FROME "GD32#"
+#define CONSOLE_FROME "GD32 "
 #define NEW_LINE      "\r\n"
 
 #define MSG(msg)  UART_Transmit(1,msg,strlen(msg))
@@ -60,6 +60,24 @@ static int str_common(const char *str1, const char *str2)
     return (str - str1);
 }
 
+static const char *shell_get_prompt(void)
+{
+    static char shell_prompt[MAX_CLI_ARGS_BUF_LEN + 1] = {0};
+    
+    strcpy(shell_prompt, CONSOLE_FROME);
+    
+    #if defined(DFS_USING_WORKDIR)
+     extern void getcwd(char * buff, int len);
+    /* get current working directory */
+    getcwd(&shell_prompt[strlen(CONSOLE_FROME)], MAX_CLI_ARGS_BUF_LEN - strlen(shell_prompt));
+    #endif
+    
+    strcat(shell_prompt, ">");
+
+    return shell_prompt;
+}
+
+
 static void shell_auto_complete(char *prefix)
 {
     struct littleshell_syscall* index;
@@ -79,7 +97,7 @@ static void shell_auto_complete(char *prefix)
             printf("%-16s - %s"NEW_LINE, index->name, index->desc);
         }
 #endif
-        printf("%s%s", CONSOLE_FROME, prefix);
+        printf("%s%s", shell_get_prompt(), prefix);
         return;
     }
 
@@ -106,7 +124,7 @@ static void shell_auto_complete(char *prefix)
     {
         strncpy(prefix, name_ptr, min_length);
     }
-    printf("%s%s", CONSOLE_FROME, prefix);
+    printf("%s%s", shell_get_prompt(), prefix);
     return ;
 }
     
@@ -222,7 +240,7 @@ static void shell_handle_history(struct little_shell *shell)
 {
 
     printf("\033[2K\r");
-    printf("%s%s", CONSOLE_FROME, shell->line);
+    printf("%s%s", shell_get_prompt(), shell->line);
 }
 
 static void shell_push_history(struct little_shell *shell)
@@ -274,8 +292,13 @@ void littleshell_main_entry(void *pvParameters)
 { 
     char *p;
     littleshell_system_init();
+
+    #if defined(DFS_USING_WORKDIR)
+     extern void fs_init(void);
+     fs_init();
+    #endif
     
-    printf("%s",CONSOLE_FROME);
+    printf("%s",shell_get_prompt());
     while(1)
     {    
         uint8_t ch = 100;
@@ -442,7 +465,7 @@ void littleshell_main_entry(void *pvParameters)
                     }
                 }
                 printf(NEW_LINE);
-                printf(CONSOLE_FROME);
+                printf("%s",shell_get_prompt());
 
                 memset(shell->line, 0, sizeof(shell->line));
                 shell->line_curpos = shell->line_position = 0;

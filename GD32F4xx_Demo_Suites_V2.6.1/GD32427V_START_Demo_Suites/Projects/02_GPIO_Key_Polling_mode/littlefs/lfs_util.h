@@ -48,7 +48,7 @@ extern "C"
 // Macros, may be replaced by system specific wrappers. Arguments to these
 // macros must not have side-effects as the macros can be removed for a smaller
 // code footprint
-
+//#define LFS_YES_TRACE
 // Logging functions
 #ifndef LFS_TRACE
 #ifdef LFS_YES_TRACE

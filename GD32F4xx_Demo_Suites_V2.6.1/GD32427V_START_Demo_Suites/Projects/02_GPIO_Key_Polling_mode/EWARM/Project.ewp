@@ -230,6 +230,7 @@
                     <state>USE_STDPERIPH_DRIVER</state>
                     <state>GD32F427</state>
                     <state>SOC_SERIES_GD32F4xx</state>
+                    <state>DFS_USING_WORKDIR</state>
                 </option>
                 <option>
                     <name>CCPreprocFile</name>
