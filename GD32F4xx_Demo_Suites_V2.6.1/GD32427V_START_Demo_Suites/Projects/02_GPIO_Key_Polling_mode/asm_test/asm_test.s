@@ -17,6 +17,7 @@
     PUBLIC asm_rev
     PUBLIC asm_test_stm
     PUBLIC xIsPrivileged
+    PUBLIC asm_test_ldr_adr
 
     EXTERN p_uint64
 
@@ -229,5 +230,11 @@ xIsPrivileged:
     movne r0, #1        /* CONTROL[0]==0. Return true to indicate that the processor is privileged. */
     bx lr               /* Return. */
 
+
+asm_test_ldr_adr:
+    adr     r0,xIsPrivileged
+    ldr     r1,=xIsPrivileged
+    bx lr
+    
     END
 

@@ -16,4 +16,4 @@ void asm_test_cmn(void);
 uint32_t asm_rev(uint32_t rev);
 void asm_test_stm(uint32_t * p);
 uint8_t xIsPrivileged(void);
-
+void asm_test_ldr_adr(void);

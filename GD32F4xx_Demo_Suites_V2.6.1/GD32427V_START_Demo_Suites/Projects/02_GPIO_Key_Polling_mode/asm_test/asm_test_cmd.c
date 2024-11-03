@@ -106,6 +106,9 @@ unsigned int asmtest(char argc,char ** argv)
     case 15:
         asm_test_stm(test_data);
         break;
+    case 16:
+        asm_test_ldr_adr();
+        break;        
     default:
         break;
     }
