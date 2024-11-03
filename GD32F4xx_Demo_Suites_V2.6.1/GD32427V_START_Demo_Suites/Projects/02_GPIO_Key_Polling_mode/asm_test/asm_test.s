@@ -221,6 +221,12 @@ asm_test_stm:
 
     bx lr
 
+asm_test_ldr_adr:
+    adr     r0,asm_test_stm
+    ldr     r1,=xIsPrivileged  
+    adr.w     r2,xIsPrivileged
+    bx lr
+
 
 xIsPrivileged:
     mrs r0, control     /* r0 = CONTROL. */
@@ -230,11 +236,6 @@ xIsPrivileged:
     movne r0, #1        /* CONTROL[0]==0. Return true to indicate that the processor is privileged. */
     bx lr               /* Return. */
 
-
-asm_test_ldr_adr:
-    adr     r0,xIsPrivileged
-    ldr     r1,=xIsPrivileged
-    bx lr
     
     END
 
