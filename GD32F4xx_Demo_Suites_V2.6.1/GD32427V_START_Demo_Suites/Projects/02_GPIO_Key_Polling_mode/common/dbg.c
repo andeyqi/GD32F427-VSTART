@@ -1,9 +1,16 @@
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stddef.h>
 #include "dbg.h"
-#include "shell.h"
-#include "console.h"
+
+
+#define logp(format, ...) do { \
+    printf(format, ##__VA_ARGS__); \
+    printf("\r\n"); \
+} while (0)
+
+uint8_t uartgetchar(uint8_t * pdata);
 
 static sFpbUnit *const FPB = (sFpbUnit *)0xE0002000;
 
@@ -42,7 +49,7 @@ void debug_monitor_handler_c(sContextStateFrame *frame) {
     logp("Debug Event Detected, Awaiting 'c' or 's'");
     while (1) {
       char c;
-      if (!shell_getchar(&c)) {
+      if (!uartgetchar((uint8_t *)&c)) {
         continue;
       }
 
@@ -253,3 +260,16 @@ bool fpb_get_comp_config(size_t comp_id, sFpbCompConfig *comp_config) {
   return true;
 }
 
+/**
+  * @brief This function handles Debug monitor.
+  */
+__attribute__((naked))
+void DebugMon_Handler(void)
+{
+  __asm volatile(
+      "tst lr, #4 \n"
+      "ite eq \n"
+      "mrseq r0, msp \n"
+      "mrsne r0, psp \n"
+      "b debug_monitor_handler_c \n");
+}
