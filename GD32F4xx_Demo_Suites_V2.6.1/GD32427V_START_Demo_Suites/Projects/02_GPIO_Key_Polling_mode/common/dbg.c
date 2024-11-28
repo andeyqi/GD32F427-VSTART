@@ -136,7 +136,7 @@ bool debug_monitor_enable(void) {
   // We will use the lowest priority so other ISRs can
   // fire while in the DebugMonitor Interrupt
   volatile uint32_t *shpr3 = (uint32_t *)0xE000ED20;
-  *shpr3 = 0xff;
+  *shpr3 = (*shpr3) | 0xff;
 
   logp("Monitor Mode Debug Enabled!");
   return true;
