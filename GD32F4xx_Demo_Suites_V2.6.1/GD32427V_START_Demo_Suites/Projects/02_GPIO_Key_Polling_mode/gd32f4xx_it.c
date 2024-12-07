@@ -35,6 +35,7 @@ OF SUCH DAMAGE.
 #include "gd32f4xx_it.h"
 #include "systick.h"
 #include <stdio.h>
+#include "rtcompiler.h"
 
 /*!
     \brief      this function handles NMI exception
@@ -52,7 +53,7 @@ void NMI_Handler(void)
     \param[out] none
     \retval     none
 */
-void HardFault_Handler(void)
+rt_weak void HardFault_Handler(void)
 {
     /* if Hard Fault exception occurs, go to infinite loop */
     while(1) {

@@ -2282,6 +2282,12 @@
             <name>$PROJ_DIR$\..\common\hard_float.c</name>
         </file>
         <file>
+            <name>$PROJ_DIR$\..\common\hardfault.c</name>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\..\common\hardfault_test.c</name>
+        </file>
+        <file>
             <name>$PROJ_DIR$\..\common\hexdump.c</name>
         </file>
         <file>
