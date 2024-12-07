@@ -10,6 +10,9 @@
 
 #endif
 
+/********************************************************************************************************
+ *                                  Private Function Declarations                                       *
+ *******************************************************************************************************/
 void hard_fault_handler_c (unsigned int * hardfault_args)
 {
   unsigned int stacked_r0;
@@ -42,13 +45,15 @@ void hard_fault_handler_c (unsigned int * hardfault_args)
   HF_PRINTLN ("HFSR = %08x", (*((volatile unsigned long *)(0xE000ED2C))));
   HF_PRINTLN ("DFSR = %08x", (*((volatile unsigned long *)(0xE000ED30))));
   HF_PRINTLN ("AFSR = %08x", (*((volatile unsigned long *)(0xE000ED3C))));
-  HF_PRINTLN ("SCB_SHCSR = %08x", (*((volatile unsigned long *)(0xE000ED24)))); 
+  HF_PRINTLN ("SCB_SHCSR = %08x", (*((volatile unsigned long *)(0xE000ED24))));
   while (1);
 }
 
-
+/********************************************************************************************************
+ *                                  Global Function Declarations                                        *
+ *******************************************************************************************************/
 /**
-  * @brief This function handles Debug monitor.
+  * @brief This function handles HardFault.
   */
 __attribute__((naked))
 void HardFault_Handler(void)
