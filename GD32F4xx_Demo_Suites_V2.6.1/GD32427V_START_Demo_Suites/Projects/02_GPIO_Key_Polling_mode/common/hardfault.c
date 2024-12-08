@@ -72,6 +72,50 @@ static void usage_fault_track(hard_fault_status_regs_t * regs)
     HF_PRINTLN("");
 }
 
+static void bus_fault_track(hard_fault_status_regs_t * regs)
+{
+    HF_PRINTLN("bus fault:");
+    HF_PRINT("SCB_CFSR_BFSR:0x%02X ", regs->cfsr_bfsr);
+
+    if(regs->cfsr_bfsr & (1<<0u))
+    {
+        /* [0]:IBUSERR */
+        HF_PRINT("IBUSERR ");
+    }
+
+    if(regs->cfsr_bfsr & (1<<1u))
+    {
+        /* [1]:PRECISERR */
+        HF_PRINT("PRECISERR ");
+    }
+
+    if(regs->cfsr_bfsr & (1<<2u))
+    {
+        /* [2]:IMPRECISERR */
+        HF_PRINT("IMPRECISERR ");
+    }
+
+    if(regs->cfsr_bfsr & (1<<3u))
+    {
+        /* [3]:UNSTKERR */
+        HF_PRINT("UNSTKERR ");
+    }
+
+    if(regs->cfsr_bfsr & (1<<4u))
+    {
+        /* [4]:STKERR */
+        HF_PRINT("STKERR ");
+    }
+
+    if(regs->cfsr_bfsr & (1<<7u))
+    {
+        HF_PRINTLN("SCB->BFAR:%08X", regs->cfsr_bfsr);
+    }
+    else
+    {
+        HF_PRINTLN("");
+    }
+}
 /********************************************************************************************************
  *                                  Global Function Declarations                                        *
  *******************************************************************************************************/
