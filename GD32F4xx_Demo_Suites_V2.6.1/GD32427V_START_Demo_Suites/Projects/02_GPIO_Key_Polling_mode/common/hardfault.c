@@ -116,6 +116,46 @@ static void bus_fault_track(hard_fault_status_regs_t * regs)
         HF_PRINTLN("");
     }
 }
+
+static void mem_manage_fault_track(hard_fault_status_regs_t * regs)
+{
+    HF_PRINTLN("mem manage fault:");
+    HF_PRINT("SCB_CFSR_MFSR:0x%02X ", regs->cfsr_mfsr);
+
+    if(regs->cfsr_mfsr & (1<<0u))
+    {
+        /* [0]:IACCVIOL */
+        HF_PRINT("IACCVIOL ");
+    }
+
+    if(regs->cfsr_mfsr & (1<<1u))
+    {
+        /* [1]:DACCVIOL */
+        HF_PRINT("DACCVIOL ");
+    }
+
+    if(regs->cfsr_mfsr & (1<<3u))
+    {
+        /* [3]:MUNSTKERR */
+        HF_PRINT("MUNSTKERR ");
+    }
+
+    if(regs->cfsr_mfsr & (1<<4u))
+    {
+        /* [4]:MSTKERR */
+        HF_PRINT("MSTKERR ");
+    }
+
+    if(regs->cfsr_mfsr & (1<<7u))
+    {
+        /* [7]:MMARVALID */
+        HF_PRINTLN("SCB->MMAR:%08X", regs->mmar);
+    }
+    else
+    {
+        HF_PRINTLN("");
+    }
+}
 /********************************************************************************************************
  *                                  Global Function Declarations                                        *
  *******************************************************************************************************/
