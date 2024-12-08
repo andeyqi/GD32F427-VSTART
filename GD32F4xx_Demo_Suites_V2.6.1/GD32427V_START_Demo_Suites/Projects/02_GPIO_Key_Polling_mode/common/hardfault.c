@@ -8,10 +8,71 @@
     printf("\r\n"); \
 } while (0)
 
+#define HF_PRINT(format, ...)     printf(format, ##__VA_ARGS__)
+
 #endif
 
 /********************************************************************************************************
+ *                                    Private Type Declarations                                         *
+ *******************************************************************************************************/
+typedef struct _hard_fault_status_regs{
+    unsigned int cfsr;
+    unsigned int hfsr;
+    unsigned int mmar;
+    unsigned int bfar;
+    unsigned int cfsr_mfsr;
+    unsigned int cfsr_bfsr;
+    unsigned int cfsr_ufsr;
+}hard_fault_status_regs_t;
+
+/********************************************************************************************************
  *                                  Private Function Declarations                                       *
+ *******************************************************************************************************/
+static void usage_fault_track(hard_fault_status_regs_t * regs)
+{
+    HF_PRINTLN("usage fault:");
+    HF_PRINT("SCB_CFSR_UFSR:0x%02X ", regs->cfsr_ufsr);
+
+    if(regs->cfsr_ufsr & (1<<0u))
+    {
+        /* [0]:UNDEFINSTR */
+        HF_PRINT("UNDEFINSTR ");
+    }
+
+    if(regs->cfsr_ufsr & (1<<1u))
+    {
+        /* [1]:INVSTATE */
+        HF_PRINT("INVSTATE ");
+    }
+
+    if(regs->cfsr_ufsr & (1<<2u))
+    {
+        /* [2]:INVPC */
+        HF_PRINT("INVPC ");
+    }
+
+    if(regs->cfsr_ufsr & (1<<3u))
+    {
+        /* [3]:NOCP */
+        HF_PRINT("NOCP ");
+    }
+
+    if(regs->cfsr_ufsr & (1<<8u))
+    {
+        /* [8]:UNALIGNED */
+        HF_PRINT("UNALIGNED ");
+    }
+
+    if(regs->cfsr_ufsr & (1<<9u))
+    {
+        /* [9]:DIVBYZERO */
+        HF_PRINT("DIVBYZERO ");
+    }
+
+    HF_PRINTLN("");
+}
+/********************************************************************************************************
+ *                                  Global Function Declarations                                        *
  *******************************************************************************************************/
 void hard_fault_handler_c (unsigned int * hardfault_args)
 {
@@ -46,6 +107,7 @@ void hard_fault_handler_c (unsigned int * hardfault_args)
   HF_PRINTLN ("DFSR = %08x", (*((volatile unsigned long *)(0xE000ED30))));
   HF_PRINTLN ("AFSR = %08x", (*((volatile unsigned long *)(0xE000ED3C))));
   HF_PRINTLN ("SCB_SHCSR = %08x", (*((volatile unsigned long *)(0xE000ED24))));
+  HF_PRINTLN ("SCB_UFSR = %08x", (*((volatile unsigned long *)(0xE000ED2A))));
   while (1);
 }
 
