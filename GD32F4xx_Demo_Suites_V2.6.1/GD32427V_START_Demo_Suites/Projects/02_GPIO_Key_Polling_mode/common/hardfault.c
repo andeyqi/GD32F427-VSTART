@@ -156,6 +156,39 @@ static void mem_manage_fault_track(hard_fault_status_regs_t * regs)
         HF_PRINTLN("");
     }
 }
+
+static void hard_fault_track(hard_fault_status_regs_t * regs)
+{
+    if(regs->hfsr & (1UL<<1U))
+    {
+        /* [1]:VECTBL, Indicates hard fault is caused by failed vector fetch. */
+        HF_PRINTLN("failed vector fetch");
+    }
+
+    if(regs->hfsr & (1UL<<30U))
+    {
+        /* [30]:FORCED, Indicates hard fault is taken because of bus fault,
+                        memory management fault, or usage fault. */
+        if(regs->cfsr_bfsr)
+        {
+            bus_fault_track(regs);
+        }
+        if(regs->cfsr_mfsr)
+        {
+            mem_manage_fault_track(regs);
+        }
+        if(regs->cfsr_ufsr)
+        {
+            usage_fault_track(regs);
+        }
+    }
+
+    if(regs->hfsr & (1UL<<31U))
+    {
+        /* [31]:DEBUGEVT, Indicates hard fault is triggered by debug event. */
+        HF_PRINTLN("debug event");
+    }
+}
 /********************************************************************************************************
  *                                  Global Function Declarations                                        *
  *******************************************************************************************************/
@@ -169,6 +202,7 @@ void hard_fault_handler_c (unsigned int * hardfault_args)
   unsigned int stacked_lr;
   unsigned int stacked_pc;
   unsigned int stacked_psr;
+  hard_fault_status_regs_t regs;
   stacked_r0 = ((unsigned long) hardfault_args[0]);
   stacked_r1 = ((unsigned long) hardfault_args[1]);
   stacked_r2 = ((unsigned long) hardfault_args[2]);
@@ -177,6 +211,14 @@ void hard_fault_handler_c (unsigned int * hardfault_args)
   stacked_lr = ((unsigned long) hardfault_args[5]);
   stacked_pc = ((unsigned long) hardfault_args[6]);
   stacked_psr = ((unsigned long) hardfault_args[7]);
+
+  regs.hfsr = (*(volatile const unsigned *)0xE000ED2C); /* HardFault Status Register */
+  regs.cfsr = (*(volatile const unsigned *)0xE000ED28); /* Configurable Fault Status Register */
+  regs.mmar = (*(volatile const unsigned *)0xE000ED34); /* MemManage Fault Address register */
+  regs.bfar = (*(volatile const unsigned *)0xE000ED38); /* Bus Fault Address Register */
+  regs.cfsr_ufsr = (*(volatile const unsigned short*)0xE000ED2A); /* Usage Fault Status Register */
+  regs.cfsr_mfsr = (*(volatile const unsigned char*)0xE000ED28);  /* Memory-management Fault Status Register */
+  regs.cfsr_bfsr = (*(volatile const unsigned char*)0xE000ED29);  /* Bus Fault Status Register */
   HF_PRINTLN ("[Hard fault handler - all numbers in hex]");
   HF_PRINTLN ("R0 = %08x", stacked_r0);
   HF_PRINTLN ("R1 = %08x", stacked_r1);
@@ -186,13 +228,14 @@ void hard_fault_handler_c (unsigned int * hardfault_args)
   HF_PRINTLN ("LR [R14] = %08x subroutine call return address", stacked_lr);
   HF_PRINTLN ("PC [R15] = %08x program counter", stacked_pc);
   HF_PRINTLN ("PSR = %08x", stacked_psr);
-  HF_PRINTLN ("BFAR = %08x", (*((volatile unsigned long *)(0xE000ED38))));
-  HF_PRINTLN ("CFSR = %08x", (*((volatile unsigned long *)(0xE000ED28))));
-  HF_PRINTLN ("HFSR = %08x", (*((volatile unsigned long *)(0xE000ED2C))));
+  HF_PRINTLN ("BFAR = %08x", regs.bfar);
+  HF_PRINTLN ("CFSR = %08x", regs.cfsr);
+  HF_PRINTLN ("HFSR = %08x", regs.hfsr);
   HF_PRINTLN ("DFSR = %08x", (*((volatile unsigned long *)(0xE000ED30))));
   HF_PRINTLN ("AFSR = %08x", (*((volatile unsigned long *)(0xE000ED3C))));
   HF_PRINTLN ("SCB_SHCSR = %08x", (*((volatile unsigned long *)(0xE000ED24))));
-  HF_PRINTLN ("SCB_UFSR = %08x", (*((volatile unsigned long *)(0xE000ED2A))));
+
+  hard_fault_track(&regs);
   while (1);
 }
 
