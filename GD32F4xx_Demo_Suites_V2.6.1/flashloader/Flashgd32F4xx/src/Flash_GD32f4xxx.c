@@ -110,7 +110,7 @@ int mini_printf(const char *fmt, ...);
 #define USART_CHC(usartx)             REG32((usartx) + 0xC0U)        /*!< USART coherence control register */
 
 static __no_init uint32_t parallelism;
-static __no_init uint8_t blankcheck;
+//static __no_init uint8_t blankcheck;
 typedef enum
 {
     CK_SYS      = 0,                                                        /*!< system clock */
@@ -235,17 +235,6 @@ uint32_t rcu_clock_freq_get(rcu_clock_freq_enum clock)
     return ck_freq;
 }
 
-void execUserFlashInit(void)
-{
-    /* unlock flash */
-    FMC_KEY = 0x45670123;
-    FMC_KEY = 0xCDEF89AB;
-    FMC_WS = 0x00000000;
-    FMC_CTL = 0x00000000;
-    FMC_STAT = 0x000000F0;
-}
-
-
 #if USE_ARGC_ARGV
 uint32_t FlashInit(void *base_of_flash, uint32_t image_size,
                    uint32_t link_address, uint32_t flags,
@@ -257,7 +246,7 @@ uint32_t FlashInit(void *base_of_flash, uint32_t image_size,
 {
     uint32_t temp = 0;
     parallelism = 1;
-    blankcheck = 0;
+    //blankcheck = 0;
 #ifdef USE_ARGC_ARGV
 
   for(int i = 0; i < argc; i++)
@@ -281,7 +270,7 @@ uint32_t FlashInit(void *base_of_flash, uint32_t image_size,
     }
     else if (strcmp("--skip_erase", argv[i]) == 0)
     {
-      blankcheck = 1;
+      //blankcheck = 1;
     }
   }
 #endif

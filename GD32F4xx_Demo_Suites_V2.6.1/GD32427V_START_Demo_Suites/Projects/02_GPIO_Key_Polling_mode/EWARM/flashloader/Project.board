@@ -3,8 +3,6 @@
     <pass>
         <loader>$PROJ_DIR$\flashloader\myFlashGD32F425xK.flash</loader>
         <range>CODE 0x8000000 0x807ffff</range>
-        <args>--x32
---x64
---skip_erase</args>
+        <args>--x32</args>
     </pass>
 </flash_board>
