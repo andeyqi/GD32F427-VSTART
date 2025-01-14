@@ -1,4 +1,4 @@
-#ifndef HF_PRINTLN
+#if !defined(HF_PRINTLN)
 
 #include <stdio.h>
 #include <stdlib.h>
